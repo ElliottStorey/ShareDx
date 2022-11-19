@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "wouter";
-
 import {
   Flex,
   Center,
@@ -15,7 +14,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-export default function Login() {
+export default function Signup() {
   return (
     <Flex
       height="100%"
