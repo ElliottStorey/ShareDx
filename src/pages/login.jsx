@@ -22,7 +22,6 @@ export default function Login() {
   const [password, setPassword] = React.useState("");
 
   const login = async () => {
-    console.log(username, password);
     let body = {
       username: username,
       password: password,

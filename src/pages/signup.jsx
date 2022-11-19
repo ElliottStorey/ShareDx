@@ -57,7 +57,19 @@ export default function Signup() {
   };
 
   const signup = async () => {
-    console.log(0);
+    //add form control
+    console.log(username, password, conditions, description, sex);
+    let body = {
+      username: username,
+      password: password,
+      conditions: conditions,
+      description: description,
+      sex: sex,
+    };
+    let res = await fetch("https://Fomite-API.elliottstorey2.repl.co/signup", {
+      method: "POST",
+      body: body,
+    });
   };
 
   return (
@@ -131,11 +143,23 @@ export default function Signup() {
               <TabPanel>
                 <FormControl>
                   <FormLabel>Username</FormLabel>
-                  <Input type="email" value={username} onChange={() => setUsername(event.target.value)} />
+                  <Input
+                    type="email"
+                    value={username}
+                    onChange={() => setUsername(event.target.value)}
+                  />
                   <FormLabel>Password</FormLabel>
-                  <Input type="password" value={password} onChange={() => setPassword(event.target.value)} />
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={() => setPassword(event.target.value)}
+                  />
                   <FormLabel>Confirm Password</FormLabel>
-                  <Input type="password" value={confirmPassword} onChange={() => setConfirmPassword(event.target.value)} />
+                  <Input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={() => setConfirmPassword(event.target.value)}
+                  />
                   <Center>
                     <Button margin="20px" onClick={signup}>
                       Signup
