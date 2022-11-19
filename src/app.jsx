@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Router, Link } from "wouter";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import "./styles/styles.css";
 import PageRouter from "./components/router.jsx";
-import Seo from "./components/seo.jsx";
 
-export default function Home() {
+export default function App() {
   return (
     <Router>
-      <main role="main" className="wrapper">
-        <div className="content">
-          <PageRouter />
-        </div>
-      </main>
+      <ChakraProvider>
+        <PageRouter />
+      </ChakraProvider>
     </Router>
   );
 }
