@@ -33,7 +33,7 @@ export default function Signup() {
   const [autocomplete, setAutocomplete] = React.useState([]);
   const [conditions, setConditions] = React.useState([]);
   const [description, setDescription] = React.useState("");
-  const [sex, setSex] = React.useState("");
+  const [sex, setSex] = React.useState("Male");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
@@ -41,11 +41,11 @@ export default function Signup() {
   const addCondition = async (value) => {
     setConditions([...conditions, value[0]]);
   };
-  
+
   const removeCondition = async (value) => {
-    setConditions([...conditions].filter(e => e !== value));
+    setConditions([...conditions].filter((e) => e !== value));
   };
-  
+
   const search = async (event) => {
     //fix the fetch happening before query
     setQuery(event.target.value);
@@ -80,16 +80,22 @@ export default function Signup() {
                 <List>
                   {autocomplete.map((value, i) => (
                     <ListItem key={i}>
-                      <Flex justify='space-between' margin='10px'>
+                      <Flex justify="space-between" margin="10px">
                         <Text>{value}</Text>
-                        <Button variant="outline" size="xs" onClick={() => addCondition(value)}>I Have This</Button>
+                        <Button
+                          variant="outline"
+                          size="xs"
+                          onClick={() => addCondition(value)}
+                        >
+                          I Have This
+                        </Button>
                       </Flex>
                     </ListItem>
                   ))}
                 </List>
-                <Flex wrap='wrap'>
+                <Flex wrap="wrap" w="35rem">
                   {conditions.map((value) => (
-                    <Tag marginRight='5px'>
+                    <Tag marginRight="5px" marginBottom="5px">
                       <TagLabel>{value}</TagLabel>
                       <TagCloseButton onClick={() => removeCondition(value)} />
                     </Tag>
