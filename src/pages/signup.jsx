@@ -20,6 +20,9 @@ import {
   List,
   Text,
   ListItem,
+  Tag,
+  TagLabel,
+  TagCloseButton,
 } from "@chakra-ui/react";
 
 export default function Signup() {
@@ -63,11 +66,15 @@ export default function Signup() {
                   {autocomplete.map((value, i) => (
                     <ListItem key={i}>
                       <Text>
-                        {value} <Button>I Have This</Button>
+                        {value}
+                        <Button variant="outline" size="xs">
+                          I Have This
+                        </Button>
                       </Text>
                     </ListItem>
                   ))}
                 </List>
+                <Flex>{conditions.map((value) => ())}</Flex>
                 <Center>
                   <Button margin="20px">Next</Button>
                 </Center>
