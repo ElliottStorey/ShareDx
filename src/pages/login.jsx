@@ -22,7 +22,6 @@ export default function Login() {
     <Flex
       height="100%"
       grow="1"
-      direction="row"
       align="center"
       justify="center"
     >

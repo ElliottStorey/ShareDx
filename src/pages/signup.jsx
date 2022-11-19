@@ -3,6 +3,8 @@ import { Link } from "wouter";
 
 import "../styles/styles.css";
 
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+
 import {
   Flex,
   Center,
@@ -19,29 +21,31 @@ import {
 
 export default function Signup() {
   return (
-    <Flex
-      height="100%"
-      grow="1"
-      direction="row"
-      align="center"
-      justify="center"
-    >
+    <Flex height="100%" grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
           <Heading>Fomite Signup</Heading>
         </CardHeader>
         <CardBody>
-          <FormControl>
-            <FormLabel>Username</FormLabel>
-            <Input type="email" />
-            <FormLabel>Password</FormLabel>
-            <Input type="password" />
-            <FormLabel>Confirm Password</FormLabel>
-            <Input type="password" />
-            <Center>
-              <Button margin="20px">Signup</Button>
-            </Center>
-          </FormControl>
+          <Tabs>
+            <TabList>
+              <Tab>Account</Tab>
+              <Tab>Condition(s)</Tab>
+              <Tab>Description</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <p>one!</p>
+              </TabPanel>
+              <TabPanel>
+                <p>two!</p>
+              </TabPanel>
+              <TabPanel>
+                <p>three!</p>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </CardBody>
       </Card>
     </Flex>
