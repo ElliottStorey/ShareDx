@@ -24,14 +24,14 @@ import {
   TagLabel,
   TagCloseButton,
   Radio,
-  RadioGroup
+  RadioGroup,
 } from "@chakra-ui/react";
 
 export default function Signup() {
-  const [tabIndex, setTabIndex] = React.useState(0)
+  const [tabIndex, setTabIndex] = React.useState(0);
   const [query, setQuery] = React.useState("");
   const [autocomplete, setAutocomplete] = React.useState([]);
-  const [conditions, setConditions] = React.useState(["cancer","aids"]);
+  const [conditions, setConditions] = React.useState(["cancer", "aids"]);
   const [description, setDescription] = React.useState("");
   const [sex, setSex] = React.useState("");
   const [username, setUsername] = React.useState("");
@@ -49,15 +49,18 @@ export default function Signup() {
     setAutocomplete(res[3]);
   };
 
+  const signup = async () => {
+    console.log(0);
+  };
+
   return (
     <Flex height="100%" grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
           <Heading>Fomite Signup</Heading>
-          {tabIndex}
         </CardHeader>
         <CardBody>
-          <Tabs value={tabIndex} onChange={setTabIndex}>
+          <Tabs index={tabIndex} onChange={setTabIndex}>
             <TabList>
               <Tab>Condition(s)</Tab>
               <Tab>Other Info</Tab>
@@ -69,12 +72,14 @@ export default function Signup() {
                 <List>
                   {autocomplete.map((value, i) => (
                     <ListItem key={i}>
-                      <Text>
-                        {value}
-                        <Button variant="outline" size="xs">
-                          I Have This
-                        </Button>
-                      </Text>
+                      <Flex>
+                        <Text>
+                          {value}
+                          <Button variant="outline" size="xs">
+                            I Have This
+                          </Button>
+                        </Text>
+                      </Flex>
                     </ListItem>
                   ))}
                 </List>
@@ -87,23 +92,31 @@ export default function Signup() {
                   ))}
                 </Flex>
                 <Center>
-                  <Button margin="20px" onClick={() => setTabIndex(1)}>Next</Button>
+                  <Button margin="20px" onClick={() => setTabIndex(1)}>
+                    Next
+                  </Button>
                 </Center>
               </TabPanel>
               <TabPanel>
                 <FormControl>
                   <FormLabel>Description</FormLabel>
-                  <Input type="text" />
+                  <Input
+                    type="text"
+                    value={description}
+                    onChange={setDescription}
+                  />
                   <FormLabel>Sex</FormLabel>
                   <RadioGroup value={sex} onChange={setSex}>
-                    <Flex direction='column'>
-                      <Radio value='Male'>Male</Radio>
-                      <Radio value='Female'>Female</Radio>
-                      <Radio value='Other'>Other</Radio>
+                    <Flex direction="column">
+                      <Radio value="Male">Male</Radio>
+                      <Radio value="Female">Female</Radio>
+                      <Radio value="Other">Other</Radio>
                     </Flex>
                   </RadioGroup>
                   <Center>
-                    <Button margin="20px" onClick={() => setTabIndex(2)}>Next</Button>
+                    <Button margin="20px" onClick={() => setTabIndex(2)}>
+                      Next
+                    </Button>
                   </Center>
                 </FormControl>
               </TabPanel>
@@ -116,7 +129,9 @@ export default function Signup() {
                   <FormLabel>Confirm Password</FormLabel>
                   <Input type="password" />
                   <Center>
-                    <Button margin="20px">Signup</Button>
+                    <Button margin="20px" onClick={signup}>
+                      Signup
+                    </Button>
                   </Center>
                 </FormControl>
               </TabPanel>
