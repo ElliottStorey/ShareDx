@@ -19,15 +19,9 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-async function search(query) {
-  let res = await fetch(
-    `https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`
-  );
-  console.log(res);
-}
-
 export default function Signup() {
   const [query, setQuery] = React.useState("");
+  const [autocomplete, setAutocomplete] = React.useState([]);
   const [conditions, setConditions] = React.useState([]);
   const [description, setDescription] = React.useState("");
   const [sex, setSex] = React.useState("");
@@ -36,8 +30,9 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
   const search = async () => {
-    let res = await fetch(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`)
-    console.log(res)
+    let res = await fetch(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`);
+    res = await res.json()[3];
+    console.log(res);
   };
 
   return (
