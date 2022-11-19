@@ -23,12 +23,14 @@ import {
   Tag,
   TagLabel,
   TagCloseButton,
+  Radio,
+  RadioGroup
 } from "@chakra-ui/react";
 
 export default function Signup() {
   const [query, setQuery] = React.useState("");
   const [autocomplete, setAutocomplete] = React.useState([]);
-  const [conditions, setConditions] = React.useState([]);
+  const [conditions, setConditions] = React.useState(["cancer","aids"]);
   const [description, setDescription] = React.useState("");
   const [sex, setSex] = React.useState("");
   const [username, setUsername] = React.useState("");
@@ -74,7 +76,14 @@ export default function Signup() {
                     </ListItem>
                   ))}
                 </List>
-                <Flex>{conditions.map((value) => ())}</Flex>
+                <Flex>
+                  {conditions.map((value) => (
+                    <Tag>
+                      <TagLabel>{value}</TagLabel>
+                      <TagCloseButton />
+                    </Tag>
+                  ))}
+                </Flex>
                 <Center>
                   <Button margin="20px">Next</Button>
                 </Center>
@@ -84,6 +93,13 @@ export default function Signup() {
                   <FormLabel>Description</FormLabel>
                   <Input type="text" />
                   <FormLabel>Sex</FormLabel>
+                  <RadioGroup value={sex} onChange={setSex}>
+                    <Stack direction='row'>
+                      <Radio value='1'>First</Radio>
+                      <Radio value='2'>Second</Radio>
+                      <Radio value='3'>Third</Radio>
+                    </Stack>
+                  </RadioGroup>
                   <Center>
                     <Button margin="20px">Next</Button>
                   </Center>
