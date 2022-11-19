@@ -5,22 +5,14 @@ import Signup from "../pages/signup";
 import Dashboard from "../pages/dashboard";
 
 export default class PageRouter extends React.Component {
-  constructor() {
-    this.state = {
-      username: '',
-      password: '',
-      
-    };
-  }
   
   render() {
-    return(
+    return (
       <Switch>
-        <Route path="/" component={Login(props)} />
-        <Route path="/signup" component={Signup(props)} />
-        <Route path="/dashboard" component={Dashboard(props)} />
+        <Route path="/" component={Login(this.state)} />
+        <Route path="/signup" component={Signup(this.state)} />
+        <Route path="/dashboard" component={Dashboard(this.state)} />
       </Switch>
     );
   }
-  
-};
+}

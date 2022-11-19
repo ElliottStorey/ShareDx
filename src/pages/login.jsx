@@ -32,6 +32,7 @@ export default function Login() {
       body: JSON.stringify(body),
     });
     if (await res.ok) {
+      console.log(this.setState);
       window.location.href = "/dashboard";
     } else {
       //add error toast
