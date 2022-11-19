@@ -17,6 +17,9 @@ import {
   Input,
   Heading,
   Button,
+  List,
+  Text,
+  ListItem
 } from "@chakra-ui/react";
 
 export default function Signup() {
@@ -31,8 +34,8 @@ export default function Signup() {
 
   const search = async () => {
     let res = await fetch(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`);
-    res = await res.json()[3];
-    console.log(res);
+    res = await res.json();
+    setAutocomplete(res[3]);
   };
 
   return (
@@ -51,6 +54,14 @@ export default function Signup() {
             <TabPanels>
               <TabPanel>
                 <Input type="text" onChange={search} />
+                <List>
+                  {autocomplete.map((condition) =>
+                    <ListItem>
+                      <Text>condition</Text>
+                      <Button>+</Button>
+                    </ListItem>
+                  )}
+                </List>
                 <Center>
                   <Button margin="20px">Next</Button>
                 </Center>
