@@ -31,13 +31,23 @@ export default function Signup() {
   const [tabIndex, setTabIndex] = React.useState(0);
   const [query, setQuery] = React.useState("");
   const [autocomplete, setAutocomplete] = React.useState([]);
-  const [conditions, setConditions] = React.useState(["cancer", "aids"]);
+  const [conditions, setConditions] = React.useState([]);
   const [description, setDescription] = React.useState("");
   const [sex, setSex] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
+  const addCondition = async (condition) => {
+    console.log()
+    setConditions(...conditions.push(condition))
+    console.log(conditions)
+  };
+  
+  const removeCondition = async (condition) => {
+    
+  };
+  
   const search = async (event) => {
     //fix the fetch happening before query
     setQuery(event.target.value);
@@ -72,20 +82,16 @@ export default function Signup() {
                 <List>
                   {autocomplete.map((value, i) => (
                     <ListItem key={i}>
-                      <Flex>
-                        <Text>
-                          {value}
-                          <Button variant="outline" size="xs">
-                            I Have This
-                          </Button>
-                        </Text>
+                      <Flex justify='space-between' margin='10px'>
+                        <Text>{value}</Text>
+                        <Button variant="outline" size="xs" onClick={() => addCondition(value)}>I Have This</Button>
                       </Flex>
                     </ListItem>
                   ))}
                 </List>
                 <Flex>
                   {conditions.map((value) => (
-                    <Tag>
+                    <Tag marginRight='5px'>
                       <TagLabel>{value}</TagLabel>
                       <TagCloseButton />
                     </Tag>
