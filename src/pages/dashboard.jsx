@@ -10,20 +10,24 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Button,
+  Flex,
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
   return (
-    <Tabs h='100%' w='100%' align="center" isFitted>
+    <Tabs grow= align="center" isFitted>
       <TabList>
-        <Tab>One</Tab>
-        <Tab>Two</Tab>
-        <Tab>Three</Tab>
+        <Tab>Connect</Tab>
+        <Tab>Support Groups</Tab>
+        <Tab>Account Settings</Tab>
       </TabList>
 
       <TabPanels>
         <TabPanel>
-          <p>one!</p>
+          <Flex grow='1'>
+            <Button size="lg">Connect!</Button>
+          </Flex>
         </TabPanel>
         <TabPanel>
           <p>two!</p>
