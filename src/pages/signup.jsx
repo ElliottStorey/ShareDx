@@ -38,13 +38,14 @@ export default function Signup() {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
-  const addCondition = async (condition) => {
-    console.log()
-    setConditions(...conditions.push(condition))
-    console.log(conditions)
+  const addCondition = async (value) => {
+    let newConditions = [...conditions];
+    newConditions =
+    //setConditions([...conditions].push(value))
+    console.log(newConditions)
   };
   
-  const removeCondition = async (condition) => {
+  const removeCondition = async (value) => {
     
   };
   
@@ -93,7 +94,7 @@ export default function Signup() {
                   {conditions.map((value) => (
                     <Tag marginRight='5px'>
                       <TagLabel>{value}</TagLabel>
-                      <TagCloseButton />
+                      <TagCloseButton onClick={() => removeCondition(value)} />
                     </Tag>
                   ))}
                 </Flex>
