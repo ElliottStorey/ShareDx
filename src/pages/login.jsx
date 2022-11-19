@@ -27,9 +27,15 @@ export default function Login() {
       password: password,
     };
     let res = await fetch("https://Fomite-API.elliottstorey2.repl.co/login", {
+      headers: { "Content-Type": "application/json" },
       method: "POST",
-      body: body,
+      body: JSON.stringify(body),
     });
+    if (await res.ok) {
+      window.location.href = '/dashboard';
+    } else {
+      //add error toast
+    }
   };
 
   return (
