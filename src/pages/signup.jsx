@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function Signup() {
+  const [tabIndex, setTabIndex] = React.useState(0)
   const [query, setQuery] = React.useState("");
   const [autocomplete, setAutocomplete] = React.useState([]);
   const [conditions, setConditions] = React.useState(["cancer","aids"]);
@@ -53,9 +54,10 @@ export default function Signup() {
       <Card>
         <CardHeader>
           <Heading>Fomite Signup</Heading>
+          {tabIndex}
         </CardHeader>
         <CardBody>
-          <Tabs>
+          <Tabs value={tabIndex} onChange={setTabIndex}>
             <TabList>
               <Tab>Condition(s)</Tab>
               <Tab>Other Info</Tab>
@@ -85,7 +87,7 @@ export default function Signup() {
                   ))}
                 </Flex>
                 <Center>
-                  <Button margin="20px">Next</Button>
+                  <Button margin="20px" onClick={() => setTabIndex(1)}>Next</Button>
                 </Center>
               </TabPanel>
               <TabPanel>
@@ -94,14 +96,14 @@ export default function Signup() {
                   <Input type="text" />
                   <FormLabel>Sex</FormLabel>
                   <RadioGroup value={sex} onChange={setSex}>
-                    <Stack direction='row'>
-                      <Radio value='1'>First</Radio>
-                      <Radio value='2'>Second</Radio>
-                      <Radio value='3'>Third</Radio>
-                    </Stack>
+                    <Flex direction='column'>
+                      <Radio value='Male'>Male</Radio>
+                      <Radio value='Female'>Female</Radio>
+                      <Radio value='Other'>Other</Radio>
+                    </Flex>
                   </RadioGroup>
                   <Center>
-                    <Button margin="20px">Next</Button>
+                    <Button margin="20px" onClick={() => setTabIndex(2)}>Next</Button>
                   </Center>
                 </FormControl>
               </TabPanel>
