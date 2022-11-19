@@ -21,6 +21,14 @@ export default function Dashboard() {
   
   const [peers, setPeers] = React.useState([]);
   
+  const getInfo = async () => {
+    
+  }
+  
+  const connect = async () => {
+    let res = async fetch()
+  };
+  
   return (
     <Tabs h="100%" w="100%" align="center" isFitted>
       <TabList>
@@ -32,11 +40,11 @@ export default function Dashboard() {
       <TabPanels>
         <TabPanel>
           <Flex grow='1' align='center' justify='center'>
-            <Button size="lg">Connect!</Button>
+            <Button size="lg" onClick={connect}>Find People to Connect With!</Button>
             <List>
               {peers.map((value) => (
                 <ListItem>
-                  <Text></Text>
+                  <Text>{value}</Text>
                 </ListItem>
               ))};
             </List>
