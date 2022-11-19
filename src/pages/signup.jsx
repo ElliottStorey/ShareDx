@@ -49,7 +49,6 @@ export default function Signup() {
   const search = async (event) => {
     //fix the fetch happening before query
     setQuery(event.target.value);
-    console.log(query);
     let res = await fetch(
       `https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`
     );
@@ -65,6 +64,7 @@ export default function Signup() {
     <Flex height="100%" grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
+          {description}
           <Heading>Fomite Signup</Heading>
         </CardHeader>
         <CardBody>
@@ -108,36 +108,34 @@ export default function Signup() {
                 </Center>
               </TabPanel>
               <TabPanel>
-                <FormControl>
-                  <FormLabel>Description</FormLabel>
-                  <Input
-                    type="text"
-                    value={description}
-                    onChange={setDescription}
-                  />
-                  <FormLabel>Sex</FormLabel>
-                  <RadioGroup value={sex} onChange={setSex}>
-                    <Flex direction="column">
-                      <Radio value="Male">Male</Radio>
-                      <Radio value="Female">Female</Radio>
-                      <Radio value="Other">Other</Radio>
-                    </Flex>
-                  </RadioGroup>
-                  <Center>
-                    <Button margin="20px" onClick={() => setTabIndex(2)}>
-                      Next
-                    </Button>
-                  </Center>
-                </FormControl>
+                <FormLabel>Description</FormLabel>
+                <Input
+                  type="text"
+                  value={description}
+                  onChange={() => setDescription(event.target.value)}
+                />
+                <FormLabel>Sex</FormLabel>
+                <RadioGroup value={sex} onChange={setSex}>
+                  <Flex direction="column">
+                    <Radio value="Male">Male</Radio>
+                    <Radio value="Female">Female</Radio>
+                    <Radio value="Other">Other</Radio>
+                  </Flex>
+                </RadioGroup>
+                <Center>
+                  <Button margin="20px" onClick={() => setTabIndex(2)}>
+                    Next
+                  </Button>
+                </Center>
               </TabPanel>
               <TabPanel>
                 <FormControl>
                   <FormLabel>Username</FormLabel>
-                  <Input type="email" />
+                  <Input type="email" value={username} onChange={() => setUsername(event.target.value)} />
                   <FormLabel>Password</FormLabel>
-                  <Input type="password" />
+                  <Input type="password" value={password} onChange={() => setPassword(event.target.value)} />
                   <FormLabel>Confirm Password</FormLabel>
-                  <Input type="password" />
+                  <Input type="password" value={confirmPassword} onChange={() => setConfirmPassword(event.target.value)} />
                   <Center>
                     <Button margin="20px" onClick={signup}>
                       Signup
