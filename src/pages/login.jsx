@@ -39,7 +39,7 @@ export default function Login() {
   };
 
   return (
-    <Flex height="100%" grow="1" align="center" justify="center">
+    <Flex grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
           <Heading>RealTalk Login</Heading>
