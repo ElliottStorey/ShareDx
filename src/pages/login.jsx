@@ -23,10 +23,13 @@ export default function Login() {
 
   const login = async () => {
     console.log(username, password);
-    let res = await fetch('https://Fomite-API.elliottstorey2.repl.co', {
-      body: {
-        
-      }
+    let body = {
+      username: username,
+      password: password,
+    };
+    let res = await fetch("https://Fomite-API.elliottstorey2.repl.co/login", {
+      method: "POST",
+      body: body,
     });
   };
 
