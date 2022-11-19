@@ -19,7 +19,7 @@ import {
   Button,
   List,
   Text,
-  ListItem
+  ListItem,
 } from "@chakra-ui/react";
 
 export default function Signup() {
@@ -32,8 +32,13 @@ export default function Signup() {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
-  const search = async () => {
-    let res = await fetch(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`);
+  const search = async (event) => {
+    //fix the fetch happening before query
+    setQuery(event.target.value);
+    console.log(query);
+    let res = await fetch(
+      `https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`
+    );
     res = await res.json();
     setAutocomplete(res[3]);
   };
@@ -55,12 +60,13 @@ export default function Signup() {
               <TabPanel>
                 <Input type="text" onChange={search} />
                 <List>
-                  {autocomplete.map((condition) =>
-                    <ListItem>
-                      <Text>condition</Text>
-                      <Button>+</Button>
+                  {autocomplete.map((value, i) => (
+                    <ListItem key={i}>
+                      <Text>
+                        {value} <Button>I Have This</Button>
+                      </Text>
                     </ListItem>
-                  )}
+                  ))}
                 </List>
                 <Center>
                   <Button margin="20px">Next</Button>
