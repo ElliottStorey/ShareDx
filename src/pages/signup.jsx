@@ -29,20 +29,38 @@ export default function Signup() {
         <CardBody>
           <Tabs>
             <TabList>
-              <Tab>Account</Tab>
               <Tab>Condition(s)</Tab>
-              <Tab>Description</Tab>
+              <Tab>Other Info</Tab>
+              <Tab>Account</Tab>
             </TabList>
 
             <TabPanels>
               <TabPanel>
-                <p>one!</p>
+                
               </TabPanel>
               <TabPanel>
-                <p>two!</p>
+                <FormControl>
+                  <FormLabel>Description</FormLabel>
+                  <Input type="description" />
+                  <FormLabel>Password</FormLabel>
+                  <Input type="password" />
+                  <Center>
+                    <Button margin="20px">Next</Button>
+                  </Center>
+                </FormControl>
               </TabPanel>
               <TabPanel>
-                <p>three!</p>
+                <FormControl>
+                  <FormLabel>Username</FormLabel>
+                  <Input type="email" />
+                  <FormLabel>Password</FormLabel>
+                  <Input type="password" />
+                  <FormLabel>Confirm Password</FormLabel>
+                  <Input type="password" />
+                  <Center>
+                    <Button margin="20px">Signup</Button>
+                  </Center>
+                </FormControl>
               </TabPanel>
             </TabPanels>
           </Tabs>
