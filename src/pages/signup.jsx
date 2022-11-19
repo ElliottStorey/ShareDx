@@ -1,5 +1,8 @@
 import * as React from "react";
 import { Link } from "wouter";
+
+import "../styles/styles.css";
+
 import {
   Flex,
   Center,
@@ -25,7 +28,7 @@ export default function Signup() {
     >
       <Card>
         <CardHeader>
-          <Heading>Fomite Login</Heading>
+          <Heading>Fomite Signup</Heading>
         </CardHeader>
         <CardBody>
           <FormControl>
@@ -33,16 +36,13 @@ export default function Signup() {
             <Input type="email" />
             <FormLabel>Password</FormLabel>
             <Input type="password" />
+            <FormLabel>Confirm Password</FormLabel>
+            <Input type="password" />
             <Center>
-              <Button margin="20px">Login</Button>
+              <Button margin="20px">Signup</Button>
             </Center>
           </FormControl>
         </CardBody>
-        <CardFooter>
-          <Link href="/signup">
-            <a className="link">My Account</a>
-          </Link>
-        </CardFooter>
       </Card>
     </Flex>
   );
