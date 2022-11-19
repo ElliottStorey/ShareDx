@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Router, Link } from "wouter";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import "./styles/styles.css";
 import PageRouter from "./components/router.jsx";
 
 export default function App() {
