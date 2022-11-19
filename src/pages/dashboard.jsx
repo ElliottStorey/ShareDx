@@ -13,10 +13,14 @@ import {
   Button,
   Flex,
   List,
-  ListItem
+  ListItem,
+  Text
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
+  
+  const [peers, setPeers] = React.useState([]);
+  
   return (
     <Tabs h="100%" w="100%" align="center" isFitted>
       <TabList>
@@ -29,6 +33,13 @@ export default function Dashboard() {
         <TabPanel>
           <Flex grow='1' align='center' justify='center'>
             <Button size="lg">Connect!</Button>
+            <List>
+              {peers.map((value) => (
+                <ListItem>
+                  <Text></Text>
+                </ListItem>
+              ))};
+            </List>
           </Flex>
         </TabPanel>
         <TabPanel>
