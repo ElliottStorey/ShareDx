@@ -20,14 +20,26 @@ import {
 } from "@chakra-ui/react";
 
 async function search(query) {
-  let res = await fetch(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`)
-  console.log(res)
+  let res = await fetch(
+    `https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`
+  );
+  console.log(res);
 }
 
 export default function Signup() {
   
-  
-  
+  const [conditions, setConditions] = React.useState([]);
+  const [description, setDescription] = React.useState('');
+  const [sex, setSex] = React.useState('');
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+
+  const search = async () => {
+    console.log(username, password);
+    let res = await fetch();
+  };
+
   return (
     <Flex height="100%" grow="1" align="center" justify="center">
       <Card>

@@ -17,14 +17,14 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-async function login() {
-  console.log(this.state.username, this.state.password);
-  //let res = await fetch();
-}
-
 export default function Login() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const login = async () => {
+    console.log(username, password);
+    let res = await fetch();
+  };
 
   return (
     <Flex height="100%" grow="1" align="center" justify="center">
@@ -35,11 +35,21 @@ export default function Login() {
         <CardBody>
           <FormControl>
             <FormLabel>Username</FormLabel>
-            <Input type="email" value={username} onChange={setUsername} />
+            <Input
+              type="email"
+              value={username}
+              onChange={() => setUsername(event.target.value)}
+            />
             <FormLabel>Password</FormLabel>
-            <Input type="password" />
+            <Input
+              type="password"
+              value={password}
+              onChange={() => setPassword(event.target.value)}
+            />
             <Center>
-              <Button margin="20px" onClick={login}>Login</Button>
+              <Button margin="20px" onClick={login}>
+                Login
+              </Button>
             </Center>
           </FormControl>
           <Center>
