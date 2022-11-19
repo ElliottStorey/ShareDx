@@ -27,17 +27,17 @@ async function search(query) {
 }
 
 export default function Signup() {
-  
+  const [query, setQuery] = React.useState("");
   const [conditions, setConditions] = React.useState([]);
-  const [description, setDescription] = React.useState('');
-  const [sex, setSex] = React.useState('');
+  const [description, setDescription] = React.useState("");
+  const [sex, setSex] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
   const search = async () => {
-    console.log(username, password);
-    let res = await fetch();
+    let res = await fetch(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`)
+    console.log(res)
   };
 
   return (
@@ -55,7 +55,7 @@ export default function Signup() {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <Input type="text" />
+                <Input type="text" onChange={search} />
                 <Center>
                   <Button margin="20px">Next</Button>
                 </Center>
