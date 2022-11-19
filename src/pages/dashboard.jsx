@@ -14,21 +14,36 @@ import {
   Flex,
   List,
   ListItem,
-  Text
+  Text,
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
-  
   const [peers, setPeers] = React.useState([]);
   
-  const getInfo = async () => {
+  useEffect(() => {
+    fetch(url)
+     .then(resp => resp.json())
+     .then(data => this.setState()
+  }, []);
     
-  }
-  
-  const connect = async () => {
-    let res = async fetch()
+  const userInfo = async () => {
+    let body = {
+      username: localStorage.getItem("username"),
+      password: localStorage.getItem("password"),
+    };
+    let res = await fetch(
+      "https://Fomite-API.elliottstorey2.repl.co/userinfo",
+      {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(body),
+      }
+    );
+    res = await res.json();
   };
-  
+
+  const connect = async () => {};
+
   return (
     <Tabs h="100%" w="100%" align="center" isFitted>
       <TabList>
@@ -39,22 +54,23 @@ export default function Dashboard() {
 
       <TabPanels>
         <TabPanel>
-          <Flex grow='1' align='center' justify='center'>
-            <Button size="lg" onClick={connect}>Find People to Connect With!</Button>
+          <Flex grow="1" align="center" justify="center">
+            <Button size="lg" onClick={connect}>
+              Find People to Connect With!
+            </Button>
             <List>
               {peers.map((value) => (
                 <ListItem>
                   <Text>{value}</Text>
                 </ListItem>
-              ))};
+              ))}
+              ;
             </List>
           </Flex>
         </TabPanel>
         <TabPanel>
           <Heading>Your Groups</Heading>
-          <List>
-            
-          </List>
+          <List></List>
         </TabPanel>
         <TabPanel>
           <p>three!</p>
