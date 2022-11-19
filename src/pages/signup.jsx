@@ -39,14 +39,11 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
   const addCondition = async (value) => {
-    let newConditions = [...conditions];
-    newConditions =
-    //setConditions([...conditions].push(value))
-    console.log(newConditions)
+    setConditions([...conditions, value[0]]);
   };
   
   const removeCondition = async (value) => {
-    
+    setConditions([...conditions].filter(e => e !== value));
   };
   
   const search = async (event) => {
@@ -90,7 +87,7 @@ export default function Signup() {
                     </ListItem>
                   ))}
                 </List>
-                <Flex>
+                <Flex wrap='wrap'>
                   {conditions.map((value) => (
                     <Tag marginRight='5px'>
                       <TagLabel>{value}</TagLabel>
