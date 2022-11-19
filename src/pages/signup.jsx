@@ -83,7 +83,7 @@ export default function Signup() {
       <Card>
         <CardHeader>
           {description}
-          <Heading>Fomite Signup</Heading>
+          <Heading>RealTalk Signup</Heading>
         </CardHeader>
         <CardBody>
           <Tabs index={tabIndex} onChange={setTabIndex}>

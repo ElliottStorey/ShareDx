@@ -32,7 +32,7 @@ export default function Login() {
       body: JSON.stringify(body),
     });
     if (await res.ok) {
-      window.location.href = '/dashboard';
+      window.location.href = "/dashboard";
     } else {
       //add error toast
     }
@@ -42,7 +42,7 @@ export default function Login() {
     <Flex height="100%" grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
-          <Heading>Fomite Login</Heading>
+          <Heading>RealTalk Login</Heading>
         </CardHeader>
         <CardBody>
           <FormControl>
