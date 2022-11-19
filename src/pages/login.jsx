@@ -17,12 +17,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-function login() {
-  
+async function login() {
+  console.log(this.state.username, this.state.password);
+  //let res = await fetch();
 }
 
 export default function Login() {
-  
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -35,11 +35,11 @@ export default function Login() {
         <CardBody>
           <FormControl>
             <FormLabel>Username</FormLabel>
-            <Input type="email" />
+            <Input type="email" value={username} onChange={setUsername} />
             <FormLabel>Password</FormLabel>
             <Input type="password" />
             <Center>
-              <Button margin="20px">Login</Button>
+              <Button margin="20px" onClick={login}>Login</Button>
             </Center>
           </FormControl>
           <Center>
