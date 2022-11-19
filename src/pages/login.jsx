@@ -17,14 +17,17 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+function login() {
+  
+}
+
 export default function Login() {
+  
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
   return (
-    <Flex
-      height="100%"
-      grow="1"
-      align="center"
-      justify="center"
-    >
+    <Flex height="100%" grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
           <Heading>Fomite Login</Heading>

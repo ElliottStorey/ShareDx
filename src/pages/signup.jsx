@@ -19,7 +19,15 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+async function search(query) {
+  let res = await fetch(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${query}`)
+  console.log(res)
+}
+
 export default function Signup() {
+  
+  
+  
   return (
     <Flex height="100%" grow="1" align="center" justify="center">
       <Card>
@@ -33,17 +41,18 @@ export default function Signup() {
               <Tab>Other Info</Tab>
               <Tab>Account</Tab>
             </TabList>
-
             <TabPanels>
               <TabPanel>
-                
+                <Input type="text" />
+                <Center>
+                  <Button margin="20px">Next</Button>
+                </Center>
               </TabPanel>
               <TabPanel>
                 <FormControl>
                   <FormLabel>Description</FormLabel>
-                  <Input type="description" />
-                  <FormLabel>Password</FormLabel>
-                  <Input type="password" />
+                  <Input type="text" />
+                  <FormLabel>Sex</FormLabel>
                   <Center>
                     <Button margin="20px">Next</Button>
                   </Center>
@@ -64,6 +73,11 @@ export default function Signup() {
               </TabPanel>
             </TabPanels>
           </Tabs>
+          <Center>
+            <Link href="/">
+              <a>Back To Log In</a>
+            </Link>
+          </Center>
         </CardBody>
       </Card>
     </Flex>
