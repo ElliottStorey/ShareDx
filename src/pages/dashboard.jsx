@@ -154,11 +154,11 @@ export default function Dashboard() {
             </Flex>
           </TabPanel>
           <TabPanel>
-            <Heading>Your Groups</Heading>
-            <List>
-              {userInfo? userInfo.conditions.map((value) => {
-                <ListItem><Text>{value} (Coming Soon)</Text></ListItem>
-              }) : '...'}
+            <Heading margin="2rem">Your Groups</Heading>
+            <List spacing="5rem">
+              {userInfo? userInfo.diagnoses.map((value) => (
+                <ListItem><Text fontSize='lg'>{value} (Coming Soon)</Text></ListItem>
+              )) : '...'}
             </List>
           </TabPanel>
           <TabPanel>
