@@ -34,7 +34,7 @@ export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState({});
   const [peers, setPeers] = React.useState([]);
   const [peer, setPeer] = React.useState({});
-  const [connection, setConnection] = React.useState({});
+  const [friendId, setFriendId] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [messages, setMessages] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,18 +69,19 @@ export default function Dashboard() {
       port: 443,
       path: "/",
     });
-    peer.on("connection", function (connection) {
-      connection.on("open", function (data) {
-        setConnection(connection);
-        onOpen();
-        console.log("Connection Opened");
-        connection.on("data", function (data) {
-          console.log('Received', data);
-          setMessages([...messages, data])
+    peer.on("open", (id) => {
+      this.setState({
+        myId: id,
+        peer: peer,
+      });
+    });
+    peer.on("connection", (conn) => {
+      conn.on("data", (data) => {
+        this.setState({
+          messages: [...this.state.messages, data],
         });
       });
     });
-    setPeer(peer);
     const body = {
       username: username,
       password: password,
@@ -98,22 +99,23 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    const connection = peer.connect(value);
-    connection.on("open", function (data) {
-      setConnection(connection);
-      onOpen();
-      console.log("Connection Opened");
-      connection.on("data", function (data) {
-        console.log('Received', data);
-        setMessages([...messages, data])
-      });
-    });
+    setFriendId(value);
+    onOpen();
   };
 
   const sendMessage = async () => {
-    connection.send(message);
-    console.log(message)
-    setMessages([...messages, message])
+    const conn = this.state.peer.connect(this.state.friendId);
+    conn.on("open", () => {
+      const msgObj = {
+        sender: this.state.myId,
+        message: this.state.message,
+      };
+      conn.send(msgObj);
+      this.setState({
+        messages: [...this.state.messages, msgObj],
+        message: "",
+      });
+    });
   };
 
   return (
