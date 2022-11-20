@@ -50,10 +50,8 @@ export default function Dashboard() {
     const peer = new Peer(username, {
       host: "Fomite-API.elliottstorey2.repl.co",
       port: 443,
-      path: "/",
-      pingInterval: 5000,
+      path: "/"
     });
-    console.log(peer);
   };
 
   return (
