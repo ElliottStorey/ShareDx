@@ -34,7 +34,7 @@ export default function Dashboard() {
       password: localStorage.getItem("password"),
     };
     let res = await fetch(
-      "https://Fomite-API.elliottstorey2.repl.co/userinfo",
+      "https://ShareDx-API.elliottstorey2.repl.co/userinfo",
       {
         headers: { "Content-Type": "application/json" },
         method: "POST",
@@ -48,7 +48,7 @@ export default function Dashboard() {
   const peerInit = async () => {
     const username = localStorage.getItem("username");
     const peer = new Peer(username, {
-      host: "Fomite-API.elliottstorey2.repl.co",
+      host: "ShareDx-API.elliottstorey2.repl.co",
       port: 443,
       path: "/",
     });

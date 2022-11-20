@@ -26,7 +26,7 @@ export default function Login() {
       username: username,
       password: password,
     };
-    let res = await fetch("https://Fomite-API.elliottstorey2.repl.co/login", {
+    let res = await fetch("https://ShareDx-API.elliottstorey2.repl.co/login", {
       headers: { "Content-Type": "application/json" },
       method: "POST",
       body: JSON.stringify(body),

@@ -66,7 +66,7 @@ export default function Signup() {
       description: description,
       sex: sex,
     };
-    let res = await fetch("https://Fomite-API.elliottstorey2.repl.co/signup", {
+    let res = await fetch("https://ShareDx-API.elliottstorey2.repl.co/signup", {
       headers: { "Content-Type": "application/json" },
       method: "POST",
       body: JSON.stringify(body),
