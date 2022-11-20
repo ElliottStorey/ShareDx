@@ -19,14 +19,15 @@ import {
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
+  const [userInfo, setUserInfo] = React.useState({});
   const [peers, setPeers] = React.useState([]);
 
   React.useEffect(() => {
-    userInfo();
+    getUserInfo();
     connect();
   }, []);
 
-  const userInfo = async () => {
+  const getUserInfo = async () => {
     const body = {
       username: localStorage.getItem("username"),
       password: localStorage.getItem("password"),
@@ -40,14 +41,15 @@ export default function Dashboard() {
       }
     );
     res = await res.json();
+    setUserInfo(res);
   };
 
   const connect = async () => {
     const username = localStorage.getItem("username");
     const peer = new Peer(username, {
-      host: "https://Fomite-API.elliottstorey2.repl.co/server",
+      host: "https://Fomite-API.elliottstorey2.repl.co",
       port: "3000",
-      path: "/peerjs",
+      path: "/server",
     });
   };
 
