@@ -38,20 +38,19 @@ import {
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState();
   const [peers, setPeers] = React.useState([]);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [peer, setPeer] = React.useState({});
+  const [friendId, setFriendId] = React.useState("");
+  const [message, setMessage] = React.useState("");
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
-
-  const [peer, setPeer] = React.useState({});
-  const [friendId, setFriendId] = React.useState('');
-  const [messages, setMessages] = React.useState([]);
-  const [message, setMessage] = React.useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   React.useEffect(() => {
     getUserInfo();
   }, []);
+    const [peer, setPeer] = React.useState({});
+  const [friendId, setFriendId] = React.useState("");
+  const [message, setMessage] = React.useState("");
 
   const getUserInfo = async () => {
     const body = {
@@ -81,9 +80,9 @@ export default function Dashboard() {
     });
     peer.on("connection", (connection) => {
       connection.on("data", (data) => {
-        setMessages([{ id: friendId, message: data },...messages]);
+        setMessages([{ id: connection.peer, message: data }, ...messages]);
         connection.send(data);
-        //connect(connection.peer);
+        connect(connection.peer);
       });
     });
     const body = {
@@ -110,8 +109,8 @@ export default function Dashboard() {
   const sendMessage = async () => {
     const connection = peer.connect(friendId);
     connection.on("open", () => {
-      connection.send('samplemessage');
-      setMessages([{ id: friendId, message: 'samplemessage' },...messages]);
+      connection.send("samplemessage");
+      setMessages([{ id: friendId, message: "samplemessage" }, ...messages]);
       setMessage("");
     });
   };
@@ -153,43 +152,41 @@ export default function Dashboard() {
           <TabPanel>
             <Heading margin="2rem">Your Groups</Heading>
             <List spacing="5rem">
-              {userInfo? userInfo.diagnoses.map((value) => (
-                <ListItem><Text fontSize='lg'>{value} (Coming Soon)</Text></ListItem>
-              )) : '...'}
+              {userInfo
+                ? userInfo.diagnoses.map((value) => (
+                    <ListItem>
+                      <Text fontSize="lg">{value} (Coming Soon)</Text>
+                    </ListItem>
+                  ))
+                : "..."}
             </List>
           </TabPanel>
           <TabPanel>
             <SimpleGrid columns={1} spacing={125}>
               <Box>
-                <Heading size="md">
-                  Username
-                </Heading>
+                <Heading size="md">Username</Heading>
                 <Text pt="2" fontSize="md">
                   {username}
                 </Text>
               </Box>
               <Box>
-                <Heading size="md">
-                  Diagnoses
-                </Heading>
+                <Heading size="md">Diagnoses</Heading>
                 <Text pt="2" fontSize="md">
                   {userInfo
-                    ? userInfo.diagnoses.map((value) => <Tag margin="0.5rem">{value}</Tag>)
+                    ? userInfo.diagnoses.map((value) => (
+                        <Tag margin="0.5rem">{value}</Tag>
+                      ))
                     : "..."}
                 </Text>
               </Box>
               <Box>
-                <Heading size="md">
-                  Description
-                </Heading>
+                <Heading size="md">Description</Heading>
                 <Text pt="2" fontSize="md">
                   {userInfo ? userInfo.description : "..."}
                 </Text>
               </Box>
               <Box>
-                <Heading size="md">
-                  Sex
-                </Heading>
+                <Heading size="md">Sex</Heading>
                 <Text pt="2" fontSize="md">
                   {userInfo ? userInfo.sex : "..."}
                 </Text>
