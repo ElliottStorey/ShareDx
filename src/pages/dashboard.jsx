@@ -31,7 +31,7 @@ export default function Dashboard() {
   const getUserInfo = async () => {
     const body = {
       username: localStorage.getItem("username"),
-      password: localStorage.getItem("password")
+      password: localStorage.getItem("password"),
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/userinfo",
@@ -53,11 +53,11 @@ export default function Dashboard() {
       path: "/",
     });
   };
-  
+
   const connect = async () => {
     const body = {
       username: localStorage.getItem("username"),
-      password: localStorage.getItem("password")
+      password: localStorage.getItem("password"),
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/connect",
@@ -68,7 +68,7 @@ export default function Dashboard() {
       }
     );
     res = await res.json();
-    console.log(res);
+    setPeers(res);
   };
 
   return (
@@ -81,14 +81,15 @@ export default function Dashboard() {
 
       <TabPanels>
         <TabPanel>
-          <Flex grow="1" align="center" justify="center">
-            <Button size="lg" onClick={connect}>
+          <Flex direction="column" grow="1" align="center" justify="center">
+            <Button size="lg" marginTop="10rem" onClick={connect}>
               Find People to Connect With!
             </Button>
             <List>
+              
               {peers.map((value) => (
                 <ListItem>
-                  <Text>{value}</Text>
+                  <Heading>{value}</Heading>
                 </ListItem>
               ))}
             </List>
