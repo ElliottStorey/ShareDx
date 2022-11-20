@@ -75,8 +75,11 @@ export default function Dashboard() {
       path: "/",
     });
     peer.on("connection", function (connection) {
-      onOpen
+      connection.on("data", function (data) {
+        console.log(data);
+      });
     });
+    setPeer(peer);
     const body = {
       username: username,
       password: password,
@@ -96,12 +99,11 @@ export default function Dashboard() {
   const connect = async (value) => {
     onOpen();
     setFriendId(value);
-    const connection = peer.connect(friendId);
   };
 
   const sendMessage = async () => {
-    connection.on("data", function (data) {});
-    connection.send("HELLO WORLD");
+    const connection = peer.connect(friendId);
+    connection.send(message);
     //setMessage("");
   };
 
