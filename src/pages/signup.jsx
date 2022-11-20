@@ -31,19 +31,19 @@ export default function Signup() {
   const [tabIndex, setTabIndex] = React.useState(0);
   const [query, setQuery] = React.useState("");
   const [autocomplete, setAutocomplete] = React.useState([]);
-  const [conditions, setConditions] = React.useState([]);
+  const [diagnoses, setDiagnoses] = React.useState([]);
   const [description, setDescription] = React.useState("");
   const [sex, setSex] = React.useState("Male");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
 
-  const addCondition = async (value) => {
-    setConditions([...conditions, value[0]]);
+  const addDiagnosis = async (value) => {
+    setDiagnoses([...diagnoses, value[0]]);
   };
 
-  const removeCondition = async (value) => {
-    setConditions([...conditions].filter((e) => e !== value));
+  const removeDiagnosis = async (value) => {
+    setDiagnoses([...diagnoses].filter((e) => e !== value));
   };
 
   const search = async (event) => {
@@ -58,11 +58,11 @@ export default function Signup() {
 
   const signup = async () => {
     //add form control
-    console.log(username, password, conditions, description, sex);
+    console.log(username, password, diagnoses, description, sex);
     let body = {
       username: username,
       password: password,
-      conditions: conditions,
+      diagnoses: diagnoses,
       description: description,
       sex: sex,
     };
@@ -82,12 +82,12 @@ export default function Signup() {
     <Flex grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
-          <Heading>RealTalk Signup</Heading>
+          <Heading>ShareDx Signup</Heading>
         </CardHeader>
         <CardBody>
           <Tabs index={tabIndex} onChange={setTabIndex}>
             <TabList>
-              <Tab>Condition(s)</Tab>
+              <Tab>Diagnoses</Tab>
               <Tab>Other Info</Tab>
               <Tab>Account</Tab>
             </TabList>
@@ -102,7 +102,7 @@ export default function Signup() {
                         <Button
                           variant="outline"
                           size="xs"
-                          onClick={() => addCondition(value)}
+                          onClick={() => addDiagnosis(value)}
                         >
                           I Have This
                         </Button>
@@ -111,10 +111,10 @@ export default function Signup() {
                   ))}
                 </List>
                 <Flex wrap="wrap" w="35rem">
-                  {conditions.map((value) => (
+                  {diagnoses.map((value) => (
                     <Tag marginRight="5px" marginBottom="5px">
                       <TagLabel>{value}</TagLabel>
-                      <TagCloseButton onClick={() => removeCondition(value)} />
+                      <TagCloseButton onClick={() => removeDiagnosis(value)} />
                     </Tag>
                   ))}
                 </Flex>

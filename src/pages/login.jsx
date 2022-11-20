@@ -44,7 +44,7 @@ export default function Login() {
     <Flex grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
-          <Heading>RealTalk Login</Heading>
+          <Heading>ShareDx Login</Heading>
         </CardHeader>
         <CardBody>
           <FormControl>
