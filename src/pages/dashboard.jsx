@@ -20,6 +20,7 @@ import {
 
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState({});
+  const [peer, setPeer] = React.useState({});
   const [peers, setPeers] = React.useState([]);
 
   React.useEffect(() => {
@@ -46,10 +47,11 @@ export default function Dashboard() {
 
   const connect = async () => {
     const username = localStorage.getItem("username");
-    const peer = new Peer(username, {
-      host: 'https://Civitas-Server.elliottstorey2.repl.co',
+    const peer = new Peer({
+      host: "https://Fomite-API.elliottstorey2.repl.co",
       port: 443,
-      path: '/'
+      path: "/",
+      pingInterval: 5000,
     });
   };
 
