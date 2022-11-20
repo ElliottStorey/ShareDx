@@ -60,8 +60,8 @@ export default function Signup() {
     //add form control
     console.log(username, password, conditions, description, sex);
     let body = {
-      username: "elliotts",
-      password: "pass",
+      username: username,
+      password: password,
       conditions: conditions,
       description: description,
       sex: sex,
@@ -72,7 +72,7 @@ export default function Signup() {
       body: JSON.stringify(body),
     });
     if (await res.ok) {
-      window.location.href = '/login';
+      window.location.href = "/login";
     } else {
       //add error toast
     }
@@ -82,7 +82,6 @@ export default function Signup() {
     <Flex grow="1" align="center" justify="center">
       <Card>
         <CardHeader>
-          {description}
           <Heading>RealTalk Signup</Heading>
         </CardHeader>
         <CardBody>
