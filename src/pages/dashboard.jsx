@@ -87,7 +87,7 @@ export default function Dashboard() {
   };
 
   const sendMessage = async () => {
-    
+    fetch("https://ShareDx-API.elliottstorey2.repl.co/sendMessage")
   };
 
   const logout = async () => {
@@ -185,7 +185,7 @@ export default function Dashboard() {
                 <ListItem>
                   <Card>
                     <CardBody>
-                      <Heading size="xs" textTransform="uppercase">
+                      <Heading size="xs">
                         {value.id}
                       </Heading>
                       <Text pt="2" fontSize="sm">
