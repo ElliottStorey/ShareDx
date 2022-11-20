@@ -50,10 +50,13 @@ export default function Dashboard() {
     getUserInfo();
   }, []);
 
-  function componentDidMount() {
-    refreshChat();
-    setInterval(refreshChat, 10000);
-  }
+  useEffect(() => {
+  const interval = setInterval(() => {
+    console.log('Logs every minute');
+  }, MINUTE_MS);
+
+  return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+}, [])
 
   async function refreshChat() {
     const body = {
@@ -116,6 +119,7 @@ export default function Dashboard() {
     const body = {
       username: username,
       password: password,
+      diagnosisGroup: diagnosisGroup,
       message: message,
     };
     let res = await fetch(
