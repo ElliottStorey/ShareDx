@@ -21,6 +21,10 @@ import {
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState({});
   const [peers, setPeers] = React.useState([]);
+  const [peer, setPeer] = React.useState({});
+
+  const username = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
 
   React.useEffect(() => {
     getUserInfo();
@@ -28,8 +32,8 @@ export default function Dashboard() {
 
   const getUserInfo = async () => {
     const body = {
-      username: localStorage.getItem("username"),
-      password: localStorage.getItem("password")
+      username: username,
+      password: password,
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/userinfo",
@@ -44,21 +48,24 @@ export default function Dashboard() {
   };
 
   const peerSearch = async () => {
-    const peer = new Peer(userInfo.username, {
+    const peer = new Peer(username, {
       host: "ShareDx-API.elliottstorey2.repl.co",
       port: 443,
       path: "/",
     });
-    localStorage.setItem("self", peer);
-    peer.on("connection", function (conn) {
-      conn.on("data", function (data) {
-        // Will print 'hi!'
-        console.log(data);
+    peer.on("connection", function (connection) {
+      connection.on("open", function (data) {
+        console.log("gotrequest");
+        connection.on("data", function (data) {
+          console.log("they said: " + data);
+          // may wish to use connection.send() here
+        });
       });
     });
+    setPeer = peer;
     const body = {
-      username: userInfo.username,
-      password: userInfo.password,
+      username: username,
+      password: password,
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/peerSearch",
@@ -73,7 +80,6 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    const peer = localStorage.getItem("self");
     let conn = peer.connect(value);
     // on open will be launch when you successfully connect to PeerServer
     conn.on("open", function () {
