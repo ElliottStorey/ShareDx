@@ -46,7 +46,7 @@ export default function Signup() {
     setDiagnoses([...diagnoses].filter((e) => e !== value));
   };
 
-  const search = async (event) => {
+  const diagnosisSearch = async (event) => {
     //fix the fetch happening before query
     setQuery(event.target.value);
     let res = await fetch(
@@ -93,7 +93,7 @@ export default function Signup() {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <Input type="text" onChange={search} />
+                <Input type="text" onChange={diagnosisSearch} />
                 <List>
                   {autocomplete.map((value, i) => (
                     <ListItem key={i}>

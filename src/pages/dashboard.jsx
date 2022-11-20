@@ -52,15 +52,16 @@ export default function Dashboard() {
       port: 443,
       path: "/",
     });
+    localStorage.setItem("self", peer);
   };
 
-  const connect = async () => {
+  const peerSearch = async () => {
     const body = {
       username: localStorage.getItem("username"),
       password: localStorage.getItem("password"),
     };
     let res = await fetch(
-      "https://ShareDx-API.elliottstorey2.repl.co/connect",
+      "https://ShareDx-API.elliottstorey2.repl.co/peerSearch",
       {
         headers: { "Content-Type": "application/json" },
         method: "POST",
@@ -69,6 +70,11 @@ export default function Dashboard() {
     );
     res = await res.json();
     setPeers(res);
+  };
+  
+  const connect = async (peerId) => {
+    localStorage.setItem("peer", peerId);
+    window.location.href = '/chat';
   };
 
   return (
@@ -82,7 +88,7 @@ export default function Dashboard() {
       <TabPanels>
         <TabPanel>
           <Flex direction="column" grow="1" align="center" justify="center">
-            <Button size="lg" marginTop="10rem" onClick={connect}>
+            <Button size="lg" marginTop="10rem" onClick={peerSearch}>
               Search For a Shared Experience!
             </Button>
             <List>
@@ -90,7 +96,7 @@ export default function Dashboard() {
                 <ListItem margin="5rem">
                   <Text fontSize='2xl'>
                     {value}
-                    <Button marginLeft="2rem">Connect</Button>
+                    <Button marginLeft="2rem" onClick={connect(value)}>Connect</Button>
                   </Text>
                 </ListItem>
               ))}
