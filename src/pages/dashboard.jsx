@@ -31,16 +31,18 @@ import {
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
-  const [userInfo, setUserInfo] = React.useState({});
-  const [peers, setPeers] = React.useState([]);
-  const [peer, setPeer] = React.useState({});
-  const [friendId, setFriendId] = React.useState("");
-  const [message, setMessage] = React.useState("");
-  const [messages, setMessages] = React.useState([]);
+  const [userInfo, setUserInfo] = React.useState();
+  const [peers, setPeers] = React.useState();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
+
+  const [peer, setPeer] = React.useState();
+  const [friendId, setFriendId] = React.useState();
+  const [messages, setMessages] = React.useState();
+  const [message, setMessage] = React.useState();
 
   React.useEffect(() => {
     getUserInfo();
@@ -70,16 +72,12 @@ export default function Dashboard() {
       path: "/",
     });
     peer.on("open", (id) => {
-      this.setState({
-        myId: id,
-        peer: peer,
-      });
+      setPeer(peer);
     });
-    peer.on("connection", (conn) => {
-      conn.on("data", (data) => {
-        this.setState({
-          messages: [...this.state.messages, data],
-        });
+    peer.on("connection", (connection) => {
+      connection.on("data", (data) => {
+        setMessages([...messages, data]);
+        connect(connection.peer);
       });
     });
     const body = {
@@ -104,17 +102,15 @@ export default function Dashboard() {
   };
 
   const sendMessage = async () => {
-    const conn = this.state.peer.connect(this.state.friendId);
-    conn.on("open", () => {
+    const connection = peer.connect(friendId);
+    connection.on("open", () => {
       const msgObj = {
-        sender: this.state.myId,
-        message: this.state.message,
+        sender: peer.id,
+        message: message,
       };
-      conn.send(msgObj);
-      this.setState({
-        messages: [...this.state.messages, msgObj],
-        message: "",
-      });
+      connection.send(msgObj);
+      setMessages([...messages, msgObj]);
+      setMessage("");
     });
   };
 
@@ -159,7 +155,7 @@ export default function Dashboard() {
       <Modal isOpen={isOpen} onClose={onClose} size="full">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Private Chat with {connection.peer}</ModalHeader>
+          <ModalHeader>Private Chat with {friendId}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {messages.toString()}
@@ -169,10 +165,10 @@ export default function Dashboard() {
                   <Card>
                     <CardBody>
                       <Heading size="xs" textTransform="uppercase">
-                        {value}
+                        {value.sender}
                       </Heading>
                       <Text pt="2" fontSize="sm">
-                        {value}
+                        {value.message}
                       </Text>
                     </CardBody>
                   </Card>
