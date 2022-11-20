@@ -41,6 +41,7 @@ export default function Dashboard() {
 
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
+  let messages2 = ["message", "anotherone"];
 
   React.useEffect(() => {
     getUserInfo();
@@ -71,25 +72,12 @@ export default function Dashboard() {
     });
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
-        const body = {
-          id: peer.id,
-          message: `${peer.id} Joined The Chat.`,
-        };
-
-        console.log(messages);
-        setMessages([...messages, body]);
-        console.log(messages);
         connection.send(`${peer.id} Joined The Chat.`);
         setConnection(connection);
         onOpen();
         connection.on("data", function (data) {
-          const body = {
-            id: connection.peer,
-            message: data,
-          };
-          console.log(messages);
-          setMessages([...messages, body]);
-          console.log(messages);
+          console.log(data)
+          messages2.push(data);
         });
       });
     });
@@ -113,32 +101,19 @@ export default function Dashboard() {
   const connect = async (value) => {
     const connection = peer.connect(value);
     connection.on("open", function (data) {
-      const body = {
-        id: peer.id,
-        message: `${peer.id} Joined The Chat.`,
-      };
-      setMessages([...messages, body]);
       connection.send(`${peer.id} Joined The Chat.`);
       setConnection(connection);
       onOpen();
       connection.on("data", function (data) {
-        const body = {
-          id: connection.peer,
-          message: data,
-        };
-        setMessages([...messages, body]);
+        console.log(data)
+        messages2.push(data);
       });
     });
   };
 
   const sendMessage = async () => {
-    const body = {
-      id: "Me",
-      message: message,
-    };
-    console.log(messages);
-    setMessages([...messages, body]);
-    console.log(messages);
+    console.log(message)
+    messages2.push(message);
     connection.send(message);
   };
 
@@ -186,16 +161,17 @@ export default function Dashboard() {
           <ModalHeader>Private Chat with {connection.peer}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            {messages2}
             <List spacing="0.5rem">
-              {messages.map((value) => (
+              {messages2.map((value) => (
                 <ListItem>
                   <Card>
                     <CardBody>
                       <Heading size="xs" textTransform="uppercase">
-                        {value.id}
+                        {value}
                       </Heading>
                       <Text pt="2" fontSize="sm">
-                        {value.message}
+                        {value}
                       </Text>
                     </CardBody>
                   </Card>
