@@ -17,12 +17,15 @@ import {
   List,
   ListItem,
   Text,
+  useDisclosure
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState({});
   const [peers, setPeers] = React.useState([]);
   const [peer, setPeer] = React.useState({});
+  const [connection, setConnection] = React.useState({});
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");

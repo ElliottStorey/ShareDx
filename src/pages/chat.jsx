@@ -26,7 +26,13 @@ export default function Chat() {
   const [messages, setMessages] = React.useState([]);
   const [message, setMessage] = React.useState([]);
 
-  const init = async () => {}
+  React.useEffect(() => {
+    init();
+  }, []);
+  
+  const init = async () => {
+    //connection.
+  }
   
   const sendMessage = async () => {
     const body = {
@@ -34,10 +40,12 @@ export default function Chat() {
       message: message
     };
     setMessages(...messages, body);
+    connection.send(message);
   };
   
   const leave = async () => {
-    connection.
+    
+    connection.disconnect();
     window.location.href = '/dashboard';
   };
     
