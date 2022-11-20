@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "wouter";
 import Peer from "peerjs";
-import {parse, stringify} from 'flatted';
+import { parse, stringify } from "flatted";
 
 import "../styles/styles.css";
 
@@ -17,7 +17,15 @@ import {
   List,
   ListItem,
   Text,
-  useDisclosure
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Input,
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
@@ -25,6 +33,8 @@ export default function Dashboard() {
   const [peers, setPeers] = React.useState([]);
   const [peer, setPeer] = React.useState({});
   const [connection, setConnection] = React.useState({});
+  const [message, setMessage] = React.useState("");
+  const [messages, setMessages] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const username = localStorage.getItem("username");
@@ -60,9 +70,8 @@ export default function Dashboard() {
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
         connection.on("data", function (data) {
-          localStorage.setItem('connection', stringify(connection));
-          console.log(localStorage.getItem('connection'))
-          window.location.href = '/chat';
+          setConnection(connection);
+          onOpen();
         });
       });
     });
@@ -87,48 +96,84 @@ export default function Dashboard() {
     const connection = peer.connect(value);
     connection.on("open", function (data) {
       connection.send("Initialize");
-      localStorage.setItem('connection', stringify(connection));
-      console.log(localStorage.getItem('connection'))
-      window.location.href = '/chat';
+      setConnection(connection);
+      onOpen();
     });
   };
 
-  return (
-    <Tabs h="100%" w="100%" align="center" isFitted>
-      <TabList>
-        <Tab>Connect</Tab>
-        <Tab>Support Groups</Tab>
-        <Tab>Account Settings</Tab>
-      </TabList>
+  const sendMessage = async () => {
+    const body = {
+      id: "Me",
+      message: message,
+    };
+    setMessages(...messages, body);
+    connection.send(message);
+  };
 
-      <TabPanels>
-        <TabPanel>
-          <Flex direction="column" grow="1" align="center" justify="center">
-            <Button size="lg" marginTop="10rem" onClick={peerSearch}>
-              Search For a Shared Experience!
-            </Button>
+  return (
+    <>
+      <Tabs h="100%" w="100%" align="center" isFitted>
+        <TabList>
+          <Tab>Connect</Tab>
+          <Tab>Support Groups</Tab>
+          <Tab>Account Settings</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel>
+            <Flex direction="column" grow="1" align="center" justify="center">
+              <Button size="lg" marginTop="10rem" onClick={peerSearch}>
+                Search For a Shared Experience!
+              </Button>
+              <List>
+                {peers.map((value) => (
+                  <ListItem margin="5rem">
+                    <Text fontSize="2xl">
+                      {value}
+                      <Button marginLeft="2rem" onClick={() => connect(value)}>
+                        Connect
+                      </Button>
+                    </Text>
+                  </ListItem>
+                ))}
+              </List>
+            </Flex>
+          </TabPanel>
+          <TabPanel>
+            <Heading>Your Groups</Heading>
+            <List></List>
+          </TabPanel>
+          <TabPanel>
+            <p>three!</p>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      <Modal isOpen={isOpen} onClose={onClose} size="full">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Private Chat with {connection.peer}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
             <List>
-              {peers.map((value) => (
-                <ListItem margin="5rem">
-                  <Text fontSize="2xl">
-                    {value}
-                    <Button marginLeft="2rem" onClick={() => connect(value)}>
-                      Connect
-                    </Button>
+              {messages.map((value) => (
+                <ListItem>
+                  <Text>
+                    {value.id} | {value.message}
                   </Text>
                 </ListItem>
               ))}
             </List>
-          </Flex>
-        </TabPanel>
-        <TabPanel>
-          <Heading>Your Groups</Heading>
-          <List></List>
-        </TabPanel>
-        <TabPanel>
-          <p>three!</p>
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+          </ModalBody>
+          <ModalFooter>
+            <Input
+              type="text"
+              value={message}
+              onChange={() => setMessage(event.target.value)}
+            ></Input>
+            <Button onClick={sendMessage}>Send</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
