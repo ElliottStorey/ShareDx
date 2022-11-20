@@ -72,7 +72,7 @@ export default function Signup() {
       body: JSON.stringify(body),
     });
     if (await res.ok) {
-      window.location.href = "/login";
+      window.location.href = "/";
     } else {
       //add error toast
     }

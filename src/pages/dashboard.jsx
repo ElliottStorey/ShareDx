@@ -25,7 +25,7 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     getUserInfo();
-    connect();
+    peerInit();
   }, []);
 
   const getUserInfo = async () => {
@@ -45,13 +45,17 @@ export default function Dashboard() {
     setUserInfo(res);
   };
 
-  const connect = async () => {
+  const peerInit = async () => {
     const username = localStorage.getItem("username");
     const peer = new Peer(username, {
       host: "Fomite-API.elliottstorey2.repl.co",
       port: 443,
       path: "/",
     });
+  };
+  
+  const connect = async () => {
+    let res = fetch('');
   };
 
   return (
@@ -74,7 +78,6 @@ export default function Dashboard() {
                   <Text>{value}</Text>
                 </ListItem>
               ))}
-              ;
             </List>
           </Flex>
         </TabPanel>
