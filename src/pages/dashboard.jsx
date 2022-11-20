@@ -44,10 +44,10 @@ export default function Dashboard() {
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
 
-  const [peer, setPeer] = React.useState();
-  const [friendId, setFriendId] = React.useState();
+  const [peer, setPeer] = React.useState({});
+  const [friendId, setFriendId] = React.useState('');
   const [messages, setMessages] = React.useState([]);
-  const [message, setMessage] = React.useState();
+  const [message, setMessage] = React.useState('');
 
   React.useEffect(() => {
     getUserInfo();
@@ -81,8 +81,9 @@ export default function Dashboard() {
     });
     peer.on("connection", (connection) => {
       connection.on("data", (data) => {
-        setMessages([...messages, data]);
-        connect(connection.peer);
+        setMessages([{ id: friendId, message: data },...messages]);
+        connection.send(data);
+        //connect(connection.peer);
       });
     });
     const body = {
@@ -109,12 +110,8 @@ export default function Dashboard() {
   const sendMessage = async () => {
     const connection = peer.connect(friendId);
     connection.on("open", () => {
-      const msgObj = {
-        sender: peer.id,
-        message: message,
-      };
-      connection.send(msgObj);
-      setMessages([...messages, msgObj]);
+      connection.send('samplemessage');
+      setMessages([{ id: friendId, message: 'samplemessage' },...messages]);
       setMessage("");
     });
   };
