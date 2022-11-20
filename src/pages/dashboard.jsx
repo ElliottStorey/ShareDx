@@ -55,14 +55,13 @@ export default function Dashboard() {
     });
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
-        console.log("gotrequest");
         connection.on("data", function (data) {
-          console.log("they said: " + data);
-          // may wish to use connection.send() here
+          localStorage.setItem('connection', connection);
+          window.location.href = '/chat';
         });
       });
     });
-    setPeer = peer;
+    setPeer(peer);
     const body = {
       username: username,
       password: password,
@@ -80,11 +79,11 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    let conn = peer.connect(value);
-    // on open will be launch when you successfully connect to PeerServer
-    conn.on("open", function () {
-      // here you have conn.id
-      conn.send("hi!");
+    const connection = peer.connect(value);
+    connection.on("open", function (data) {
+      connection.send("Initialize");
+      localStorage.setItem('connection', connection);
+      window.location.href = '/chat';
     });
   };
 

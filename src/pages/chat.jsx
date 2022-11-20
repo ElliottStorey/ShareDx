@@ -20,8 +20,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function Chat() {
-  const peer = localStorage.getItem("peer");
-  const self = localStorage.getItem("self");
+  const connection = localStorage.getItem("peer");
 
   const [messages, setMessages] = React.useState([]);
   const [message, setMessage] = React.useState([]);
@@ -30,7 +29,7 @@ export default function Chat() {
     <Flex grow="1" direction="column">
       <Flex grow="1" justify="space-around" align="center">
         <Button>Thank 🎉</Button>
-        <Heading>Private Chat With {peer.id}</Heading>
+        <Heading>Private Chat With {connection.id}</Heading>
         <Button>Leave</Button>
       </Flex>
       <Flex grow="10">
