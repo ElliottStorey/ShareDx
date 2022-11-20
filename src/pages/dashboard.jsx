@@ -20,18 +20,16 @@ import {
 
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState({});
-  const [peer, setPeer] = React.useState({});
   const [peers, setPeers] = React.useState([]);
 
   React.useEffect(() => {
     getUserInfo();
-    peerInit();
   }, []);
 
   const getUserInfo = async () => {
     const body = {
       username: localStorage.getItem("username"),
-      password: localStorage.getItem("password"),
+      password: localStorage.getItem("password")
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/userinfo",
@@ -45,9 +43,8 @@ export default function Dashboard() {
     setUserInfo(res);
   };
 
-  const peerInit = async () => {
-    const username = localStorage.getItem("username");
-    const peer = new Peer(username, {
+  const peerSearch = async () => {
+    const peer = new Peer(userInfo.username, {
       host: "ShareDx-API.elliottstorey2.repl.co",
       port: 443,
       path: "/",
@@ -59,12 +56,9 @@ export default function Dashboard() {
         console.log(data);
       });
     });
-  };
-
-  const peerSearch = async () => {
     const body = {
-      username: localStorage.getItem("username"),
-      password: localStorage.getItem("password"),
+      username: userInfo.username,
+      password: userInfo.password,
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/peerSearch",
@@ -79,6 +73,7 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
+    const peer = localStorage.getItem("self");
     let conn = peer.connect(value);
     // on open will be launch when you successfully connect to PeerServer
     conn.on("open", function () {
