@@ -53,6 +53,12 @@ export default function Dashboard() {
       path: "/",
     });
     localStorage.setItem("self", peer);
+    peer.on("connection", function (conn) {
+      conn.on("data", function (data) {
+        // Will print 'hi!'
+        console.log(data);
+      });
+    });
   };
 
   const peerSearch = async () => {
@@ -72,9 +78,13 @@ export default function Dashboard() {
     setPeers(res);
   };
 
-  const connect = async (peerId) => {
-    localStorage.setItem("peer", peerId);
-    window.location.href = "/chat";
+  const connect = async (value) => {
+    let conn = peer.connect(value);
+    // on open will be launch when you successfully connect to PeerServer
+    conn.on("open", function () {
+      // here you have conn.id
+      conn.send("hi!");
+    });
   };
 
   return (

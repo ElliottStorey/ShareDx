@@ -20,53 +20,27 @@ import {
 } from "@chakra-ui/react";
 
 export default function Chat() {
-  const peerId = localStorage.getItem("peer");
+  const peer = localStorage.getItem("peer");
   const self = localStorage.getItem("self");
 
   const [messages, setMessages] = React.useState([]);
   const [message, setMessage] = React.useState([]);
 
-  const peerInit = async () => {
-    const conn = self.connect(peerId);
-    conn.on("open", function () {
-      conn.on("data", function (data) {
-        const body = {
-          id: peerId,
-          message: data,
-        };
-        setMessages(...messages, body);
-      });
-      conn.send(`${self.id} joined the chat.`);
-    });
-    conn.on("close", function () {
-      conn.send(`${self.id} left the chat.`);
-      const body = {
-      id: peerId,
-      message: `${peerId} left the chat.`,
-    };
-    setMessages(...messages, body);
-    });
-  };
-
-  const sendMessage = async () => {
-    const body = {
-      id: "Me",
-      message: message,
-    };
-    setMessages(...messages, body);
-  };
-
   return (
     <Flex grow="1" direction="column">
       <Flex grow="1" justify="space-around" align="center">
         <Button>Thank 🎉</Button>
-        <Heading>Private Chat With {peerId}</Heading>
+        <Heading>Private Chat With {peer.id}</Heading>
         <Button>Leave</Button>
       </Flex>
       <Flex grow="10">
         <List>
           {messages.map((value) => (
-            <ListItem><Text>{value.id} | {value.message}</Text></ListItem>
+            <ListItem>
+              <Text>
+                {value.id} | {value.message}
+              </Text>
+            </ListItem>
           ))}
         </List>
       </Flex>
@@ -77,7 +51,7 @@ export default function Chat() {
           value={message}
           onChange={() => setMessage(event.target.value)}
         ></Input>
-        <Button marginRight="5rem" onClick={sendMessage}>
+        <Button marginRight="5rem" onClick={console.log()}>
           Send
         </Button>
       </Flex>
