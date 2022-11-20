@@ -26,6 +26,8 @@ import {
   ModalBody,
   ModalCloseButton,
   Input,
+  Card,
+  CardBody,
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
@@ -106,7 +108,7 @@ export default function Dashboard() {
       id: "Me",
       message: message,
     };
-    setMessages(...messages, body);
+    setMessages([...messages, body]);
     connection.send(message);
   };
 
@@ -154,12 +156,19 @@ export default function Dashboard() {
           <ModalHeader>Private Chat with {connection.peer}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <List>
+            <List spacing="0.5rem">
               {messages.map((value) => (
                 <ListItem>
-                  <Text>
-                    {value.id} | {value.message}
-                  </Text>
+                  <Card>
+                    <CardBody>
+                      <Heading size="xs" textTransform="uppercase">
+                        {value.id}
+                      </Heading>
+                      <Text pt="2" fontSize="sm">
+                        {value.message}
+                      </Text>
+                    </CardBody>
+                  </Card>
                 </ListItem>
               ))}
             </List>
