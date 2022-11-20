@@ -36,12 +36,11 @@ export default function Dashboard() {
   const [peer, setPeer] = React.useState({});
   const [connection, setConnection] = React.useState({});
   const [message, setMessage] = React.useState("");
-  const [messages, setMessages] = React.useState([]);
+  const [messages, setMessages] = React.useState(["message", "anotherone"]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
-  let messages2 = ["message", "anotherone"];
 
   React.useEffect(() => {
     getUserInfo();
@@ -72,12 +71,13 @@ export default function Dashboard() {
     });
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
-        connection.send(`${peer.id} Joined The Chat.`);
         setConnection(connection);
         onOpen();
+        console.log("Connection Opened");
+
         connection.on("data", function (data) {
-          console.log(data)
-          messages2.push(data);
+          console.log(data);
+          setMessages([...messages, data]);
         });
       });
     });
@@ -101,19 +101,20 @@ export default function Dashboard() {
   const connect = async (value) => {
     const connection = peer.connect(value);
     connection.on("open", function (data) {
-      connection.send(`${peer.id} Joined The Chat.`);
       setConnection(connection);
       onOpen();
+      console.log("Connection Opened");
       connection.on("data", function (data) {
-        console.log(data)
-        messages2.push(data);
+        console.log(data);
+        console.log(messages);
+        setMessages([...messages, data]);
       });
     });
   };
 
   const sendMessage = async () => {
-    console.log(message)
-    messages2.push(message);
+    console.log(message);
+    setMessages([...messages, message]);
     connection.send(message);
   };
 
@@ -161,9 +162,9 @@ export default function Dashboard() {
           <ModalHeader>Private Chat with {connection.peer}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {messages2}
+            {messages}
             <List spacing="0.5rem">
-              {messages2.map((value) => (
+              {messages.map((value) => (
                 <ListItem>
                   <Card>
                     <CardBody>
