@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "wouter";
-var Peer = require('peerjs');
+import Peer from "peerjs";
 
 import "../styles/styles.css";
 
@@ -27,7 +27,7 @@ export default function Dashboard() {
   }, []);
 
   const userInfo = async () => {
-    let body = {
+    const body = {
       username: localStorage.getItem("username"),
       password: localStorage.getItem("password"),
     };
@@ -43,10 +43,11 @@ export default function Dashboard() {
   };
 
   const connect = async () => {
-    const peer = new Peer('', {
-      host: 'localhost',
-      port: '3001',
-      path: '/'
+    const username = localStorage.getItem("username");
+    const peer = new Peer(username, {
+      host: "https://Fomite-API.elliottstorey2.repl.co/server",
+      port: "3000",
+      path: "/peerjs",
     });
   };
 

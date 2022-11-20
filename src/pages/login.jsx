@@ -32,8 +32,8 @@ export default function Login() {
       body: JSON.stringify(body),
     });
     if (await res.ok) {
-      localStorage.set('username', username);
-      localStorage.set('password', password);
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
       window.location.href = "/dashboard";
     } else {
       //add error toast
