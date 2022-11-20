@@ -35,8 +35,8 @@ import {
 
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState();
-  const [friendId, setFriendId] = React.useState("");
-  const [connects, setConnects] = React.useState("");
+  const [diagnosisGroup, setDiagnosisGroup] = React.useState("");
+  const [connects, setConnects] = React.useState([]);
   const [message, setMessage] = React.useState("");
   const [messages, setMessages] = React.useState([]);
   const username = localStorage.getItem("username");
@@ -82,9 +82,8 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    setFriendId(value);
+    setDiagnosisGroup(value);
     onOpen();
-    
   };
 
   const sendMessage = async () => {
@@ -177,7 +176,7 @@ export default function Dashboard() {
       <Modal isOpen={isOpen} onClose={onClose} size="full">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Private Chat with {friendId}</ModalHeader>
+          <ModalHeader>Support Group for {diagnosisGroup}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {messages.toString()}
