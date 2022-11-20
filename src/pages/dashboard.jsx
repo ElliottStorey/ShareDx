@@ -51,25 +51,25 @@ export default function Dashboard() {
   }, []);
 
   React.useEffect(() => {
-    async function refreshChat() {
+    function refreshChat() {
       const body = {
         username: username,
         password: password,
         diagnosisGroup: diagnosisGroup,
       };
-      let res = await fetch(
-        "https://ShareDx-API.elliottstorey2.repl.co/getmessages",
-        {
-          headers: { "Content-Type": "application/json" },
-          method: "POST",
-          body: JSON.stringify(body),
-        }
-      );
-      res = await res.json();
-      console.log(res);
-      await setMessages(res);
+      fetch("https://ShareDx-API.elliottstorey2.repl.co/getmessages", {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(body),
+      })
+        .then((result) => result.json())
+        .then((result) => setMessages(result));
     }
     refreshChat();
+    const interval = setInterval(() => refreshChat(), 10000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   async function refreshChat() {
