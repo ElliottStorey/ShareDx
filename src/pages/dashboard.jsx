@@ -35,7 +35,6 @@ import {
 
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState();
-  const [diagnosisGroup, setDiagnosisGroup] = React.useState("");
   const [connects, setConnects] = React.useState([]);
   const [message, setMessage] = React.useState("");
   const [messages, setMessages] = React.useState([]);
@@ -43,53 +42,11 @@ export default function Dashboard() {
   const password = localStorage.getItem("password");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [ticking, setTicking] = React.useState(true),
-    [count, setCount] = React.useState(0);
+  const [diagnosisGroup, setDiagnosisGroup] = React.useState("");
 
   React.useEffect(async () => {
     await getUserInfo();
   }, []);
-
-  React.useEffect(() => {
-    function refreshChat() {
-      const body = {
-        username: username,
-        password: password,
-        diagnosisGroup: diagnosisGroup,
-      };
-      fetch("https://ShareDx-API.elliottstorey2.repl.co/getmessages", {
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-        body: JSON.stringify(body),
-      })
-        .then((result) => result.json())
-        .then((result) => setMessages(result));
-    }
-    refreshChat();
-    const interval = setInterval(() => refreshChat(), 10000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  async function refreshChat() {
-    const body = {
-      username: username,
-      password: password,
-      diagnosisGroup: diagnosisGroup,
-    };
-    let res = await fetch(
-      "https://ShareDx-API.elliottstorey2.repl.co/getmessages",
-      {
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-        body: JSON.stringify(body),
-      }
-    );
-    res = await res.json();
-    console.log(res);
-    setMessages(res);
-  }
 
   const getUserInfo = async () => {
     const body = {
@@ -126,8 +83,8 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    setDiagnosisGroup(value);
-    onOpen();
+    await setDiagnosisGroup(value);
+    await onOpen();
   };
 
   const sendMessage = async () => {
