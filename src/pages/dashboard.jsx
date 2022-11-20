@@ -30,6 +30,7 @@ import {
   CardHeader,
   Card,
   CardBody,
+  Tag,
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
@@ -116,6 +117,11 @@ export default function Dashboard() {
     });
   };
 
+  const logout = async () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
+
   return (
     <>
       <Tabs h="100%" w="100%" align="center" isFitted>
@@ -150,34 +156,35 @@ export default function Dashboard() {
             <List></List>
           </TabPanel>
           <TabPanel>
-            <List spacing="0.5rem">
-                <ListItem>
-                  <Card>
-                    <CardBody>
-                      <Heading size="xs" textTransform="uppercase">
-                        Username
-                      </Heading>
-                      <Text pt="2" fontSize="sm">
-                        {username}
-                      </Text>
-                    </CardBody>
-                  </Card>
-                </ListItem>
-              <ListItem>
-                  <Card>
-                    <CardBody>
-                      <Heading size="xs" textTransform="uppercase">
-                        Diagnoses
-                      </Heading>
-                      <Text pt="2" fontSize="sm">
-                        {userInfo.diagnoses.map((value) => (
-                          {value}
-                        ))}
-                      </Text>
-                    </CardBody>
-                  </Card>
-                </ListItem>
-            </List>
+            <Flex grow="1" direction="column" justify="space-between" align="space-between">
+              <Heading size="xs" textTransform="uppercase">
+                Username
+              </Heading>
+              <Text pt="2" fontSize="sm">
+                {username}
+              </Text>
+              <Heading size="xs" textTransform="uppercase">
+                Diagnoses
+              </Heading>
+              <Text pt="2" fontSize="sm">
+                {userInfo
+                  ? userInfo.diagnoses.map((value) => <Tag>{value}</Tag>)
+                  : "..."}
+              </Text>
+              <Heading size="xs" textTransform="uppercase">
+                Description
+              </Heading>
+              <Text pt="2" fontSize="sm">
+                {userInfo ? userInfo.description : "..."}
+              </Text>
+              <Heading size="xs" textTransform="uppercase">
+                Sex
+              </Heading>
+              <Text pt="2" fontSize="sm">
+                {userInfo ? userInfo.sex : "..."}
+              </Text>
+              <Button onClick="logout">Log Out</Button>
+            </Flex>
           </TabPanel>
         </TabPanels>
       </Tabs>
