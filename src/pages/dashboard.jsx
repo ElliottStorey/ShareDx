@@ -48,10 +48,6 @@ export default function Dashboard() {
     await getUserInfo();
   }, []);
   
-  React.useEffect(async () => {
-    await getMessages();
-  }, []);
-  
   const getMessages = async () => {
     const body = {
       username: username,
@@ -105,9 +101,25 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    setDiagnosisGroup(value);
+    console.log(value)
+    await setDiagnosisGroup(value);
     onOpen();
-    await getMessages();
+    const body = {
+      username: username,
+      password: password,
+      diagnosisGroup: value,
+      message: `${username} Joined The Group`,
+    };
+    let res = await fetch(
+      "https://ShareDx-API.elliottstorey2.repl.co/sendMessage",
+      {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(body),
+      }
+    );
+    res = await res.json();
+    await setMessages(res);
   };
 
   const sendMessage = async () => {
