@@ -71,15 +71,17 @@ export default function Dashboard() {
     });
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
+        connection.send(`${peer.id} Joined The Chat.`);
+        setConnection(connection);
+        onOpen();
         connection.on("data", function (data) {
           const body = {
             id: connection.peer,
             message: data,
           };
+          console.log(body)
           setMessages([...messages, body]);
           console.log(messages);
-          setConnection(connection);
-          onOpen();
         });
       });
     });
@@ -106,6 +108,15 @@ export default function Dashboard() {
       connection.send(`${peer.id} Joined The Chat.`);
       setConnection(connection);
       onOpen();
+      connection.on("data", function (data) {
+        const body = {
+          id: connection.peer,
+          message: data,
+        };
+        console.log(body)
+        setMessages([...messages, body]);
+        console.log(messages);
+      });
     });
   };
 
