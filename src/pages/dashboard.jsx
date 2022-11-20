@@ -50,13 +50,12 @@ export default function Dashboard() {
     getUserInfo();
   }, []);
 
-  useEffect(() => {
-  const interval = setInterval(() => {
-    console.log('Logs every minute');
-  }, MINUTE_MS);
-
-  return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-}, [])
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      refreshChat();
+    }, 5000);
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  }, []);
 
   async function refreshChat() {
     const body = {
@@ -73,7 +72,8 @@ export default function Dashboard() {
       }
     );
     res = await res.json();
-    setMessages(res);
+    await console.log(res);
+    await setMessages(res);
   }
 
   const getUserInfo = async () => {
@@ -174,7 +174,15 @@ export default function Dashboard() {
               {userInfo
                 ? userInfo.diagnoses.map((value) => (
                     <ListItem>
-                      <Text fontSize="lg">{value} (Coming Soon)</Text>
+                      <Text fontSize="lg">
+                        {value}
+                        <Button
+                          marginLeft="2rem"
+                          onClick={() => connect(value)}
+                        >
+                          Connect
+                        </Button>
+                      </Text>
                     </ListItem>
                   ))
                 : "..."}
