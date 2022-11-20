@@ -42,23 +42,24 @@ export default function Dashboard() {
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
-  const [ticking, setTicking] = React.useState(true), [count, setCount] = React.useState(0)
+
+  const [ticking, setTicking] = React.useState(true),
+    [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
     getUserInfo();
   }, []);
-  
+
   function componentDidMount() {
-    refreshChat()
+    refreshChat();
     setInterval(refreshChat, 10000);
   }
-  
+
   async function refreshChat() {
     const body = {
       username: username,
       password: password,
-      group
+      diagnosisGroup: diagnosisGroup,
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/getmessages",
@@ -125,6 +126,8 @@ export default function Dashboard() {
         body: JSON.stringify(body),
       }
     );
+    res = await res.json();
+    setMessages(res);
   };
 
   const logout = async () => {
@@ -216,7 +219,6 @@ export default function Dashboard() {
           <ModalHeader>Support Group for {diagnosisGroup}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {messages.toString()}
             <List spacing="0.5rem">
               {messages.map((value) => (
                 <ListItem>
