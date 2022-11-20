@@ -42,10 +42,35 @@ export default function Dashboard() {
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  const [ticking, setTicking] = React.useState(true), [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     getUserInfo();
   }, []);
+  
+  function componentDidMount() {
+    refreshChat()
+    setInterval(refreshChat, 10000);
+  }
+  
+  async function refreshChat() {
+    const body = {
+      username: username,
+      password: password,
+      group
+    };
+    let res = await fetch(
+      "https://ShareDx-API.elliottstorey2.repl.co/getmessages",
+      {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(body),
+      }
+    );
+    res = await res.json();
+    setMessages(res);
+  }
 
   const getUserInfo = async () => {
     const body = {
@@ -87,7 +112,19 @@ export default function Dashboard() {
   };
 
   const sendMessage = async () => {
-    fetch("https://ShareDx-API.elliottstorey2.repl.co/sendMessage")
+    const body = {
+      username: username,
+      password: password,
+      message: message,
+    };
+    let res = await fetch(
+      "https://ShareDx-API.elliottstorey2.repl.co/sendMessage",
+      {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(body),
+      }
+    );
   };
 
   const logout = async () => {
@@ -185,9 +222,7 @@ export default function Dashboard() {
                 <ListItem>
                   <Card>
                     <CardBody>
-                      <Heading size="xs">
-                        {value.id}
-                      </Heading>
+                      <Heading size="xs">{value.id}</Heading>
                       <Text pt="2" fontSize="sm">
                         {value.msg}
                       </Text>
