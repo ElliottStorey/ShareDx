@@ -19,22 +19,34 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-const peerInit = async () => {
-  const self = localStorage("self");
-  const peerId = localStorage.getItem("peer");
-  const conn = self.connect(peerId);
-  conn.on("open", function () {
-    conn.send(`${self.id} joined the chat.`);
-  });
-  self.on("connection", function (conn) {
-    conn.on("data", function (data) {
-      console.log(data);
-    });
-  });
-};
-
 export default function Chat() {
   const peerId = localStorage.getItem("peer");
+  const self = localStorage("self");
+  
+  const [messages, setMessages] = React.useState([]);
+
+  const peerInit = async () => {
+    const conn = self.connect(peerId);
+    conn.on("open", function () {
+      conn.send(`${self.id} joined the chat.`);
+    });
+    conn.on("close", function () {
+      conn.send(`${self.id} left the chat.`);
+    });
+    self.on("connection", function (conn) {
+      conn.on("data", function (data) {
+        const body = {
+          id: peerId,
+          message: data
+        };
+        setMessages(...messages, body);
+      });
+    });
+  };
+  
+  const sendMessage = async () => {
+    
+  };
 
   return (
     <Flex grow="1" direction="column">
@@ -43,10 +55,14 @@ export default function Chat() {
         <Heading>Private Chat With {peerId}</Heading>
         <Button>Leave</Button>
       </Flex>
-      <Flex grow="5"></Flex>
+      <Flex grow="10">
+        <List>
+          <ListItem></ListItem>
+        </List>
+      </Flex>
       <Flex grow="1" justify="space-between" align="center">
-        <Input type="text" marginHorizontal ="5rem"></Input>
-        <Button marginHorizontal ="5rem">Send</Button>
+        <Input type="text" marginLeft="5rem"></Input>
+        <Button marginRight="5rem">Send</Button>
       </Flex>
     </Flex>
   );
