@@ -74,8 +74,10 @@ export default function Dashboard() {
       port: 443,
       path: "/",
     });
-    peer.on("connection", function (connection) {
-      connection.on("data", function (data) {
+    peer.on("connection", function (conn) {
+      
+      conn.on("data", function (data) {
+        // Will print 'hi!'
         console.log(data);
       });
     });
@@ -97,14 +99,24 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    onOpen();
     setFriendId(value);
+    onOpen();
+    console.log(peer);
+    const conn = peer.connect(value);
+    console.log(conn);
+    conn.on("open", function () {
+      conn.send("hi!");
+    });
   };
 
   const sendMessage = async () => {
-    const connection = peer.connect(friendId);
-    connection.send(message);
-    //setMessage("");
+    console.log(friendId);
+    const conn = peer.connect(friendId);
+    // on open will be launch when you successfully connect to PeerServer
+    conn.on("open", function () {
+      // here you have conn.id
+      conn.send(message);
+    });
   };
 
   const logout = async () => {
