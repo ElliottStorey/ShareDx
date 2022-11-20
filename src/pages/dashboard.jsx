@@ -24,15 +24,17 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  Divider,
   ModalCloseButton,
   Input,
+  CardHeader,
   Card,
   CardBody,
 } from "@chakra-ui/react";
 
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState();
-  const [peers, setPeers] = React.useState();
+  const [peers, setPeers] = React.useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -41,7 +43,7 @@ export default function Dashboard() {
 
   const [peer, setPeer] = React.useState();
   const [friendId, setFriendId] = React.useState();
-  const [messages, setMessages] = React.useState();
+  const [messages, setMessages] = React.useState([]);
   const [message, setMessage] = React.useState();
 
   React.useEffect(() => {
@@ -148,7 +150,34 @@ export default function Dashboard() {
             <List></List>
           </TabPanel>
           <TabPanel>
-            <p>three!</p>
+            <List spacing="0.5rem">
+                <ListItem>
+                  <Card>
+                    <CardBody>
+                      <Heading size="xs" textTransform="uppercase">
+                        Username
+                      </Heading>
+                      <Text pt="2" fontSize="sm">
+                        {username}
+                      </Text>
+                    </CardBody>
+                  </Card>
+                </ListItem>
+              <ListItem>
+                  <Card>
+                    <CardBody>
+                      <Heading size="xs" textTransform="uppercase">
+                        Diagnoses
+                      </Heading>
+                      <Text pt="2" fontSize="sm">
+                        {userInfo.diagnoses.map((value) => (
+                          {value}
+                        ))}
+                      </Text>
+                    </CardBody>
+                  </Card>
+                </ListItem>
+            </List>
           </TabPanel>
         </TabPanels>
       </Tabs>
