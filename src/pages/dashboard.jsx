@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "wouter";
+var Peer = require('peerjs');
 
 import "../styles/styles.css";
 
@@ -22,7 +23,7 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     userInfo();
-    
+    connect();
   }, []);
 
   const userInfo = async () => {
@@ -40,12 +41,14 @@ export default function Dashboard() {
     );
     res = await res.json();
   };
-  
-  const connect = async () => {
-    
-  };
 
-  const connect = async () => {};
+  const connect = async () => {
+    const peer = new Peer('', {
+      host: 'localhost',
+      port: '3001',
+      path: '/'
+    });
+  };
 
   return (
     <Tabs h="100%" w="100%" align="center" isFitted>
