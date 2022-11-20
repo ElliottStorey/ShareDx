@@ -35,6 +35,11 @@ import {
   Tag,
 } from "@chakra-ui/react";
 
+function useForceUpdate() {
+  let [value, setState] = React.useState(true);
+  return () => setState(!value);
+}
+
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState();
   const [peers, setPeers] = React.useState([]);
@@ -43,14 +48,14 @@ export default function Dashboard() {
   const [message, setMessage] = React.useState("");
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
+  const messageList = [];
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   React.useEffect(() => {
     getUserInfo();
   }, []);
-    const [peer, setPeer] = React.useState({});
-  const [friendId, setFriendId] = React.useState("");
-  const [message, setMessage] = React.useState("");
+
+  ]
 
   const getUserInfo = async () => {
     const body = {
@@ -79,10 +84,13 @@ export default function Dashboard() {
       setPeer(peer);
     });
     peer.on("connection", (connection) => {
+      connect(connection.peer);
       connection.on("data", (data) => {
-        setMessages([{ id: connection.peer, message: data }, ...messages]);
-        connection.send(data);
-        connect(connection.peer);
+        messageList.push({
+          id: connection.peer,
+          msg: data,
+        });
+        useForceUpdate();
       });
     });
     const body = {
@@ -109,9 +117,13 @@ export default function Dashboard() {
   const sendMessage = async () => {
     const connection = peer.connect(friendId);
     connection.on("open", () => {
-      connection.send("samplemessage");
-      setMessages([{ id: friendId, message: "samplemessage" }, ...messages]);
-      setMessage("");
+      messageList.push({
+        id: peer.id,
+        msg: message,
+      });
+      connection.send(message);
+      useForceUpdate();
+      //setMessage("");
     });
   };
 
@@ -204,17 +216,17 @@ export default function Dashboard() {
           <ModalHeader>Private Chat with {friendId}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {messages.toString()}
+            {messageList.toString()}
             <List spacing="0.5rem">
-              {messages.map((value) => (
+              {messageList.map((value) => (
                 <ListItem>
                   <Card>
                     <CardBody>
                       <Heading size="xs" textTransform="uppercase">
-                        {value.sender}
+                        {value.id}
                       </Heading>
                       <Text pt="2" fontSize="sm">
-                        {value.message}
+                        {value.msg}
                       </Text>
                     </CardBody>
                   </Card>
