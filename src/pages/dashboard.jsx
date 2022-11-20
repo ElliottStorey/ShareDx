@@ -35,27 +35,21 @@ import {
   Tag,
 } from "@chakra-ui/react";
 
-function useForceUpdate() {
-  let [value, setState] = React.useState(true);
-  return () => setState(!value);
-}
-
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState();
   const [peers, setPeers] = React.useState([]);
   const [peer, setPeer] = React.useState({});
   const [friendId, setFriendId] = React.useState("");
   const [message, setMessage] = React.useState("");
+  const [messages, setMessages] = React.useState([]);
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
-  const messageList = [];
+  let messageList = [];
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   React.useEffect(() => {
     getUserInfo();
   }, []);
-
-  ]
 
   const getUserInfo = async () => {
     const body = {
@@ -80,18 +74,8 @@ export default function Dashboard() {
       port: 443,
       path: "/",
     });
-    peer.on("open", (id) => {
-      setPeer(peer);
-    });
-    peer.on("connection", (connection) => {
-      connect(connection.peer);
-      connection.on("data", (data) => {
-        messageList.push({
-          id: connection.peer,
-          msg: data,
-        });
-        useForceUpdate();
-      });
+    peer.on("connection", function (connection) {
+      onOpen
     });
     const body = {
       username: username,
@@ -110,21 +94,15 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    setFriendId(value);
     onOpen();
+    setFriendId(value);
+    const connection = peer.connect(friendId);
   };
 
   const sendMessage = async () => {
-    const connection = peer.connect(friendId);
-    connection.on("open", () => {
-      messageList.push({
-        id: peer.id,
-        msg: message,
-      });
-      connection.send(message);
-      useForceUpdate();
-      //setMessage("");
-    });
+    connection.on("data", function (data) {});
+    connection.send("HELLO WORLD");
+    //setMessage("");
   };
 
   const logout = async () => {
@@ -216,7 +194,7 @@ export default function Dashboard() {
           <ModalHeader>Private Chat with {friendId}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {messageList.toString()}
+            {messages.toString()}
             <List spacing="0.5rem">
               {messageList.map((value) => (
                 <ListItem>
