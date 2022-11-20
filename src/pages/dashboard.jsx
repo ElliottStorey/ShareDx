@@ -50,12 +50,13 @@ export default function Dashboard() {
     getUserInfo();
   }, []);
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
+  React.useEffect(async () => {
+    while (true) {
       refreshChat();
-    }, 5000);
-    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    }
   }, []);
+  
+  
 
   async function refreshChat() {
     const body = {
@@ -72,8 +73,8 @@ export default function Dashboard() {
       }
     );
     res = await res.json();
-    await console.log(res);
-    await setMessages(res);
+    console.log(res);
+    setMessages(res);
   }
 
   const getUserInfo = async () => {
