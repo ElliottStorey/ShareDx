@@ -47,12 +47,13 @@ export default function Dashboard() {
 
   const connect = async () => {
     const username = localStorage.getItem("username");
-    const peer = new Peer({
-      host: "https://Fomite-API.elliottstorey2.repl.co",
+    const peer = new Peer(username, {
+      host: "Fomite-API.elliottstorey2.repl.co",
       port: 443,
       path: "/",
       pingInterval: 5000,
     });
+    console.log(peer);
   };
 
   return (
