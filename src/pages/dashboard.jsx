@@ -47,6 +47,28 @@ export default function Dashboard() {
   React.useEffect(async () => {
     await getUserInfo();
   }, []);
+  
+  React.useEffect(async () => {
+    await getMessages();
+  }, []);
+  
+  const getMessages = async () => {
+    const body = {
+      username: username,
+      password: password,
+      diagnosisGroup: diagnosisGroup
+    };
+    let res = await fetch(
+      "https://ShareDx-API.elliottstorey2.repl.co/getmessages",
+      {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(body),
+      }
+    );
+    res = await res.json();
+    setMessages(res);
+  };
 
   const getUserInfo = async () => {
     const body = {
@@ -83,8 +105,9 @@ export default function Dashboard() {
   };
 
   const connect = async (value) => {
-    await setDiagnosisGroup(value);
-    await onOpen();
+    setDiagnosisGroup(value);
+    onOpen();
+    await getMessages();
   };
 
   const sendMessage = async () => {
