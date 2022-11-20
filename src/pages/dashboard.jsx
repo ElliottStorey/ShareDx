@@ -36,7 +36,7 @@ export default function Dashboard() {
   const [peer, setPeer] = React.useState({});
   const [connection, setConnection] = React.useState({});
   const [message, setMessage] = React.useState("");
-  const [messages, setMessages] = React.useState(["message", "anotherone"]);
+  const [messages, setMessages] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const username = localStorage.getItem("username");
@@ -74,10 +74,9 @@ export default function Dashboard() {
         setConnection(connection);
         onOpen();
         console.log("Connection Opened");
-
         connection.on("data", function (data) {
-          console.log(data);
-          setMessages([...messages, data]);
+          console.log('Received', data);
+          setMessages([...messages, data])
         });
       });
     });
@@ -105,17 +104,16 @@ export default function Dashboard() {
       onOpen();
       console.log("Connection Opened");
       connection.on("data", function (data) {
-        console.log(data);
-        console.log(messages);
-        setMessages([...messages, data]);
+        console.log('Received', data);
+        setMessages([...messages, data])
       });
     });
   };
 
   const sendMessage = async () => {
-    console.log(message);
-    setMessages([...messages, message]);
     connection.send(message);
+    console.log(message)
+    setMessages([...messages, message])
   };
 
   return (
@@ -162,7 +160,7 @@ export default function Dashboard() {
           <ModalHeader>Private Chat with {connection.peer}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {messages}
+            {messages.toString()}
             <List spacing="0.5rem">
               {messages.map((value) => (
                 <ListItem>
