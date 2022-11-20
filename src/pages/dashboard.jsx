@@ -30,6 +30,8 @@ import {
   CardHeader,
   Card,
   CardBody,
+  Box,
+  SimpleGrid,
   Tag,
 } from "@chakra-ui/react";
 
@@ -153,38 +155,52 @@ export default function Dashboard() {
           </TabPanel>
           <TabPanel>
             <Heading>Your Groups</Heading>
-            <List></List>
+            <List>
+              {userInfo? userInfo.conditions.map((value) => {
+                <ListItem><Text>{value} (Coming Soon)</Text></ListItem>
+              }) : '...'}
+            </List>
           </TabPanel>
           <TabPanel>
-            <Flex grow="1" direction="column" justify="space-between" align="space-between">
-              <Heading size="xs" textTransform="uppercase">
-                Username
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {username}
-              </Text>
-              <Heading size="xs" textTransform="uppercase">
-                Diagnoses
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {userInfo
-                  ? userInfo.diagnoses.map((value) => <Tag>{value}</Tag>)
-                  : "..."}
-              </Text>
-              <Heading size="xs" textTransform="uppercase">
-                Description
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {userInfo ? userInfo.description : "..."}
-              </Text>
-              <Heading size="xs" textTransform="uppercase">
-                Sex
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {userInfo ? userInfo.sex : "..."}
-              </Text>
-              <Button onClick="logout">Log Out</Button>
-            </Flex>
+            <SimpleGrid columns={1} spacing={125}>
+              <Box>
+                <Heading size="md">
+                  Username
+                </Heading>
+                <Text pt="2" fontSize="md">
+                  {username}
+                </Text>
+              </Box>
+              <Box>
+                <Heading size="md">
+                  Diagnoses
+                </Heading>
+                <Text pt="2" fontSize="md">
+                  {userInfo
+                    ? userInfo.diagnoses.map((value) => <Tag margin="0.5rem">{value}</Tag>)
+                    : "..."}
+                </Text>
+              </Box>
+              <Box>
+                <Heading size="md">
+                  Description
+                </Heading>
+                <Text pt="2" fontSize="md">
+                  {userInfo ? userInfo.description : "..."}
+                </Text>
+              </Box>
+              <Box>
+                <Heading size="md">
+                  Sex
+                </Heading>
+                <Text pt="2" fontSize="md">
+                  {userInfo ? userInfo.sex : "..."}
+                </Text>
+              </Box>
+              <Box>
+                <Button onClick={logout}>Log Out</Button>
+              </Box>
+            </SimpleGrid>
           </TabPanel>
         </TabPanels>
       </Tabs>
