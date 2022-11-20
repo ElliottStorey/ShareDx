@@ -83,13 +83,15 @@ export default function Dashboard() {
         <TabPanel>
           <Flex direction="column" grow="1" align="center" justify="center">
             <Button size="lg" marginTop="10rem" onClick={connect}>
-              Find People to Connect With!
+              Search For a Shared Experience!
             </Button>
             <List>
-              
               {peers.map((value) => (
-                <ListItem>
-                  <Heading>{value}</Heading>
+                <ListItem margin="5rem">
+                  <Text fontSize='2xl'>
+                    {value}
+                    <Button marginLeft="2rem">Connect</Button>
+                  </Text>
                 </ListItem>
               ))}
             </List>
