@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "wouter";
 import Peer from "peerjs";
+import {parse, stringify} from 'flatted';
 
 import "../styles/styles.css";
 
@@ -56,7 +57,7 @@ export default function Dashboard() {
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
         connection.on("data", function (data) {
-          localStorage.setItem('connection', JSON.stringify(connection));
+          localStorage.setItem('connection', stringify(connection));
           console.log(localStorage.getItem('connection'))
           window.location.href = '/chat';
         });
@@ -83,7 +84,7 @@ export default function Dashboard() {
     const connection = peer.connect(value);
     connection.on("open", function (data) {
       connection.send("Initialize");
-      localStorage.setItem('connection', JSON.stringify(connection));
+      localStorage.setItem('connection', stringify(connection));
       console.log(localStorage.getItem('connection'))
       window.location.href = '/chat';
     });

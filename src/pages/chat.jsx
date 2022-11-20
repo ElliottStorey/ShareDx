@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "wouter";
 import Peer from "peerjs";
+import {parse, stringify} from 'flatted';
 
 import "../styles/styles.css";
 
@@ -20,17 +21,32 @@ import {
 } from "@chakra-ui/react";
 
 export default function Chat() {
-  const connection = JSON.parse(localStorage.getItem("connection"));
-
+  const connection = parse(localStorage.getItem("connection"));
+  console.log(connection)
   const [messages, setMessages] = React.useState([]);
   const [message, setMessage] = React.useState([]);
 
+  const init = async () => {}
+  
+  const sendMessage = async () => {
+    const body = {
+      id: 'Me',
+      message: message
+    };
+    setMessages(...messages, body);
+  };
+  
+  const leave = async () => {
+    connection.
+    window.location.href = '/dashboard';
+  };
+    
   return (
     <Flex grow="1" direction="column">
       <Flex grow="1" justify="space-around" align="center">
         <Button>Thank 🎉</Button>
-        <Heading>Private Chat With {connection.id}</Heading>
-        <Button>Leave</Button>
+        <Heading>Private Chat With {connection.peer}</Heading>
+        <Button onClick={leave}>Leave</Button>
       </Flex>
       <Flex grow="10">
         <List>
@@ -50,7 +66,7 @@ export default function Chat() {
           value={message}
           onChange={() => setMessage(event.target.value)}
         ></Input>
-        <Button marginRight="5rem" onClick={console.log()}>
+        <Button marginRight="5rem" onClick={sendMessage}>
           Send
         </Button>
       </Flex>
