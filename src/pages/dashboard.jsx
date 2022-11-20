@@ -56,7 +56,8 @@ export default function Dashboard() {
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
         connection.on("data", function (data) {
-          localStorage.setItem('connection', connection);
+          localStorage.setItem('connection', JSON.stringify(connection));
+          console.log(localStorage.getItem('connection'))
           window.location.href = '/chat';
         });
       });
@@ -82,7 +83,8 @@ export default function Dashboard() {
     const connection = peer.connect(value);
     connection.on("open", function (data) {
       connection.send("Initialize");
-      localStorage.setItem('connection', connection);
+      localStorage.setItem('connection', JSON.stringify(connection));
+      console.log(localStorage.getItem('connection'))
       window.location.href = '/chat';
     });
   };

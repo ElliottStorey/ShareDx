@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function Chat() {
-  const connection = localStorage.getItem("peer");
+  const connection = JSON.parse(localStorage.getItem("connection"));
 
   const [messages, setMessages] = React.useState([]);
   const [message, setMessage] = React.useState([]);
