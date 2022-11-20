@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Link } from "wouter";
-import Peer from "peerjs";
-import { parse, stringify } from "flatted";
 
 import "../styles/styles.css";
 
@@ -37,14 +35,12 @@ import {
 
 export default function Dashboard() {
   const [userInfo, setUserInfo] = React.useState();
-  const [peers, setPeers] = React.useState([]);
-  const [peer, setPeer] = React.useState({});
   const [friendId, setFriendId] = React.useState("");
+  const [connects, setConnects] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [messages, setMessages] = React.useState([]);
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
-  let messageList = [];
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   React.useEffect(() => {
@@ -68,26 +64,13 @@ export default function Dashboard() {
     setUserInfo(res);
   };
 
-  const peerSearch = async () => {
-    const peer = new Peer(username, {
-      host: "ShareDx-API.elliottstorey2.repl.co",
-      port: 443,
-      path: "/",
-    });
-    peer.on("connection", function (conn) {
-      setFriendId(conn.peer);
-      onOpen();
-      conn.on("data", function (data) {
-        console.log(data);
-      });
-    });
-    setPeer(peer);
+  const connectSearch = async () => {
     const body = {
       username: username,
       password: password,
     };
     let res = await fetch(
-      "https://ShareDx-API.elliottstorey2.repl.co/peerSearch",
+      "https://ShareDx-API.elliottstorey2.repl.co/connectSearch",
       {
         headers: { "Content-Type": "application/json" },
         method: "POST",
@@ -95,24 +78,17 @@ export default function Dashboard() {
       }
     );
     res = await res.json();
-    setPeers(res);
+    setConnects(res);
   };
 
   const connect = async (value) => {
     setFriendId(value);
     onOpen();
-    let conn = peer.connect(value);
-    conn.on("open", function () {
-      conn.send("Chat Request");
-    });
+    
   };
 
   const sendMessage = async () => {
-    let conn = peer.connect(friendId);
-    conn.on("open", function () {
-      conn.send(message);
-      setMessage([...message, {id: peer.id, msg: message}]);
-    });
+    
   };
 
   const logout = async () => {
@@ -132,11 +108,11 @@ export default function Dashboard() {
         <TabPanels>
           <TabPanel>
             <Flex direction="column" grow="1" align="center" justify="center">
-              <Button size="lg" marginTop="10rem" onClick={peerSearch}>
+              <Button size="lg" marginTop="10rem" onClick={connectSearch}>
                 Search For a Shared Experience!
               </Button>
               <List>
-                {peers.map((value) => (
+                {connects.map((value) => (
                   <ListItem margin="5rem">
                     <Text fontSize="2xl">
                       {value}
