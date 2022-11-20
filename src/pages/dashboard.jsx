@@ -71,10 +71,10 @@ export default function Dashboard() {
     res = await res.json();
     setPeers(res);
   };
-  
+
   const connect = async (peerId) => {
     localStorage.setItem("peer", peerId);
-    window.location.href = '/chat';
+    window.location.href = "/chat";
   };
 
   return (
@@ -94,9 +94,11 @@ export default function Dashboard() {
             <List>
               {peers.map((value) => (
                 <ListItem margin="5rem">
-                  <Text fontSize='2xl'>
+                  <Text fontSize="2xl">
                     {value}
-                    <Button marginLeft="2rem" onClick={connect(value)}>Connect</Button>
+                    <Button marginLeft="2rem" onClick={() => connect(value)}>
+                      Connect
+                    </Button>
                   </Text>
                 </ListItem>
               ))}
