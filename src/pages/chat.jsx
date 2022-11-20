@@ -21,31 +21,39 @@ import {
 
 export default function Chat() {
   const peerId = localStorage.getItem("peer");
-  const self = localStorage("self");
-  
+  const self = localStorage.getItem("self");
+
   const [messages, setMessages] = React.useState([]);
+  const [message, setMessage] = React.useState([]);
 
   const peerInit = async () => {
     const conn = self.connect(peerId);
     conn.on("open", function () {
+      conn.on("data", function (data) {
+        const body = {
+          id: peerId,
+          message: data,
+        };
+        setMessages(...messages, body);
+      });
       conn.send(`${self.id} joined the chat.`);
     });
     conn.on("close", function () {
       conn.send(`${self.id} left the chat.`);
-    });
-    self.on("connection", function (conn) {
-      conn.on("data", function (data) {
-        const body = {
-          id: peerId,
-          message: data
-        };
-        setMessages(...messages, body);
-      });
+      const body = {
+      id: peerId,
+      message: `${peerId} left the chat.`,
+    };
+    setMessages(...messages, body);
     });
   };
-  
+
   const sendMessage = async () => {
-    
+    const body = {
+      id: "Me",
+      message: message,
+    };
+    setMessages(...messages, body);
   };
 
   return (
@@ -57,12 +65,21 @@ export default function Chat() {
       </Flex>
       <Flex grow="10">
         <List>
-          <ListItem></ListItem>
+          {messages.map((value) => (
+            <ListItem><Text>{value.id} | {value.message}</Text></ListItem>
+          ))}
         </List>
       </Flex>
-      <Flex grow="1" justify="space-between" align="center">
-        <Input type="text" marginLeft="5rem"></Input>
-        <Button marginRight="5rem">Send</Button>
+      <Flex grow="1" justify="center" align="center">
+        <Input
+          type="text"
+          marginLeft="5rem"
+          value={message}
+          onChange={() => setMessage(event.target.value)}
+        ></Input>
+        <Button marginRight="5rem" onClick={sendMessage}>
+          Send
+        </Button>
       </Flex>
     </Flex>
   );
