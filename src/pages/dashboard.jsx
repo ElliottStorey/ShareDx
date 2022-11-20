@@ -31,7 +31,7 @@ export default function Dashboard() {
   const getUserInfo = async () => {
     const body = {
       username: localStorage.getItem("username"),
-      password: localStorage.getItem("password"),
+      password: localStorage.getItem("password")
     };
     let res = await fetch(
       "https://ShareDx-API.elliottstorey2.repl.co/userinfo",
@@ -55,7 +55,20 @@ export default function Dashboard() {
   };
   
   const connect = async () => {
-    let res = fetch('');
+    const body = {
+      username: localStorage.getItem("username"),
+      password: localStorage.getItem("password")
+    };
+    let res = await fetch(
+      "https://ShareDx-API.elliottstorey2.repl.co/connect",
+      {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(body),
+      }
+    );
+    res = await res.json();
+    console.log(res);
   };
 
   return (
