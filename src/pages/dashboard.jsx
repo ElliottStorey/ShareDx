@@ -72,6 +72,12 @@ export default function Dashboard() {
     peer.on("connection", function (connection) {
       connection.on("open", function (data) {
         connection.on("data", function (data) {
+          const body = {
+            id: connection.peer,
+            message: data,
+          };
+          setMessages([...messages, body]);
+          console.log(messages);
           setConnection(connection);
           onOpen();
         });
@@ -97,7 +103,7 @@ export default function Dashboard() {
   const connect = async (value) => {
     const connection = peer.connect(value);
     connection.on("open", function (data) {
-      connection.send("Initialize");
+      connection.send(`${peer.id} Joined The Chat.`);
       setConnection(connection);
       onOpen();
     });
@@ -109,6 +115,7 @@ export default function Dashboard() {
       message: message,
     };
     setMessages([...messages, body]);
+    console.log(messages);
     connection.send(message);
   };
 
