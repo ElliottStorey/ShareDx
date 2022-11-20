@@ -46,17 +46,31 @@ export default function Dashboard() {
   const [ticking, setTicking] = React.useState(true),
     [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    getUserInfo();
+  React.useEffect(async () => {
+    await getUserInfo();
   }, []);
 
-  React.useEffect(async () => {
-    while (true) {
-      refreshChat();
+  React.useEffect(() => {
+    async function refreshChat() {
+      const body = {
+        username: username,
+        password: password,
+        diagnosisGroup: diagnosisGroup,
+      };
+      let res = await fetch(
+        "https://ShareDx-API.elliottstorey2.repl.co/getmessages",
+        {
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+      );
+      res = await res.json();
+      console.log(res);
+      await setMessages(res);
     }
+    refreshChat();
   }, []);
-  
-  
 
   async function refreshChat() {
     const body = {
