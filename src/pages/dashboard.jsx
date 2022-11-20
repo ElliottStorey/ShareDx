@@ -19,13 +19,12 @@ import {
 
 export default function Dashboard() {
   const [peers, setPeers] = React.useState([]);
-  
-  useEffect(() => {
-    fetch(url)
-     .then(resp => resp.json())
-     .then(data => this.setState()
-  }, []);
+
+  React.useEffect(() => {
+    userInfo();
     
+  }, []);
+
   const userInfo = async () => {
     let body = {
       username: localStorage.getItem("username"),
@@ -40,6 +39,10 @@ export default function Dashboard() {
       }
     );
     res = await res.json();
+  };
+  
+  const connect = async () => {
+    
   };
 
   const connect = async () => {};
