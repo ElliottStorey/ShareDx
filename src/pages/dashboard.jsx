@@ -48,7 +48,7 @@ export default function Dashboard() {
     const username = localStorage.getItem("username");
     const peer = new Peer(username, {
       host: "https://Fomite-API.elliottstorey2.repl.co",
-      port: "3000",
+      port: "443",
       path: "/server",
     });
   };
