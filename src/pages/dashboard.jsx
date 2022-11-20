@@ -47,9 +47,9 @@ export default function Dashboard() {
   const connect = async () => {
     const username = localStorage.getItem("username");
     const peer = new Peer(username, {
-      host: "https://Fomite-API.elliottstorey2.repl.co",
-      port: "443",
-      path: "/server",
+      host: 'https://Civitas-Server.elliottstorey2.repl.co',
+      port: 443,
+      path: '/'
     });
   };
 
