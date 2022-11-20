@@ -75,9 +75,9 @@ export default function Dashboard() {
       path: "/",
     });
     peer.on("connection", function (conn) {
-      
+      setFriendId(conn.peer);
+      onOpen();
       conn.on("data", function (data) {
-        // Will print 'hi!'
         console.log(data);
       });
     });
@@ -101,21 +101,17 @@ export default function Dashboard() {
   const connect = async (value) => {
     setFriendId(value);
     onOpen();
-    console.log(peer);
-    const conn = peer.connect(value);
-    console.log(conn);
+    let conn = peer.connect(value);
     conn.on("open", function () {
-      conn.send("hi!");
+      conn.send("Chat Request");
     });
   };
 
   const sendMessage = async () => {
-    console.log(friendId);
-    const conn = peer.connect(friendId);
-    // on open will be launch when you successfully connect to PeerServer
+    let conn = peer.connect(friendId);
     conn.on("open", function () {
-      // here you have conn.id
       conn.send(message);
+      setMessage([...message, {id: peer.id, msg: message}]);
     });
   };
 
@@ -210,7 +206,7 @@ export default function Dashboard() {
           <ModalBody>
             {messages.toString()}
             <List spacing="0.5rem">
-              {messageList.map((value) => (
+              {messages.map((value) => (
                 <ListItem>
                   <Card>
                     <CardBody>
